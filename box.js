@@ -42,7 +42,7 @@ $.json = $.name // `介面`類請求的回應體
 $.html = $.name // `頁面`類請求的回應體
 
 // 頁面源碼位址
-$.web = `https://raw.githubusercontent.com/Marcio2536/rules${$.version}/master/box.html?_=${new Date().getTime()}`
+$.web = `https://raw.githubusercontent.com/Marcio2536/rules/master/box.html?_=${new Date().getTime()}`
 // 版本說明地址 (Release Note)
 $.ver = 'https://raw.githubusercontent.com/Marcio2536/rules/master/boxfile.json'
 
