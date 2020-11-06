@@ -1,0 +1,614 @@
+{
+  "releases": [
+    {
+      "version": "0.7.58",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "msg": "更新[BoxJs]: 刷新訂閱添加時間綴避免網路緩存",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["BoxJs 內的請求會可以被重寫", "刷新訂閱添加時間綴避免網路緩存"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.56",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "msg": "更新[BoxJs TF]: 修復一處導致白屏邏輯",
+      "notes": [
+        {
+          "name": "修復",
+          "descs": ["修復一處導致白屏邏輯"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.55",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "msg": "更新[BoxJs TF]: 頂欄和底欄可以設置跟隨滾動",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["頂欄和底欄可以設置跟隨滾動"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.54",
+      "tags": ["beta"],
+      "author": "@id77",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 側欄增加新的貢獻者 @id77",
+      "notes": [
+        {
+          "name": "貢獻者",
+          "descs": ["新的貢獻者 @id77"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.53",
+      "tags": ["beta"],
+      "author": "@GideonSenku",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 跟隨系統壁紙設置同時支援中英文",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["跟隨系統壁紙設置支援中英文,且優先考慮中文關鍵字"]
+        },
+        {
+          "name": "說明",
+          "descs": ["中文關鍵字為`暗黑`和`明亮`,英文關鍵字不變"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.52",
+      "tags": ["beta"],
+      "author": "@id77 @chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 刪除備份後直接回到首頁問題",
+      "notes": [
+        {
+          "name": "移除",
+          "descs": ["主螢幕的左右滑動手勢", "原因: 與流覽器前進後退容易發生衝突"]
+        },
+        {
+          "name": "修復",
+          "descs": ["刪除備份後直接回到首頁問題"]
+        },
+        {
+          "name": "優化",
+          "descs": ["頁面後退事件邏輯", "部分側欄設置的小字說明"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.49",
+      "tags": ["beta"],
+      "author": "@GideonSenku",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 修復主屏左滑時與側欄衝突問題",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["背景圖片可跟隨系統調整"]
+        },
+        {
+          "name": "調整",
+          "descs": ["背景清單圖片預設`無`更改為`跟隨系統`"]
+        },
+        {
+          "name": "修復",
+          "descs": ["主屏左滑時與側欄衝突問題"]
+        },
+        {
+          "name": "說明",
+          "descs": ["背景圖片清單中設置:無{換行} 跟隨系統,跟隨系統{換行} light,圖片位址{換行} dark,圖片位址{換行}", "如果不設置`跟隨系統,跟隨系統`,則預設跟隨系統為無背景"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.47",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 修復代碼編輯器高度, 部分介面左右滑動範圍問題",
+      "notes": [
+        {
+          "name": "修復",
+          "descs": ["代碼編輯器高度問題", "部分介面只能在有內容的範圍左右滑動問題"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.46",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 移除滑動動畫, 勿擾模式不彈腳本執行結果頁, 操作優化",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["勿擾模式下運行腳本不彈出結果頁", "壁紙模式下滑更容易退出壁紙模式"]
+        },
+        {
+          "name": "移除",
+          "descs": ["左右滑動切換頁面的動畫"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.45",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 修復腳本執行結果、更新日誌頁面位置不正確, 主頁左滑進入壁紙模式",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["主頁左滑進入壁紙模式"]
+        },
+        {
+          "name": "修復",
+          "descs": ["腳本執行結果、更新日誌頁面位置不正確"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.44",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 主螢幕左右滑動可切換 首頁、應用、訂閱、我的 頁面",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["Surge、QuanX、Loon 手動運行腳本時都可以顯示執行結果", "主螢幕左右滑動可切換 首頁、應用、訂閱、我的 頁面"]
+        },
+        {
+          "name": "修復",
+          "descs": ["全域搜索結果位置不正確問題"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.43",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 修復非壁紙模式下上滑仍然重新渲染壁紙",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["在頂欄上滑可隱藏頂欄", "在底欄下滑可以隱藏底欄", "壁紙模式上滑可以重新渲染壁紙"]
+        },
+        {
+          "name": "修復",
+          "descs": ["代碼編輯器不顯示問題", "二次進入搜索介面無法自動獲取焦點", "非壁紙模式下上滑仍然重新渲染壁紙"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.41",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 修復頂欄隱藏時圖示沒往上挪, 懸浮按鈕上滑切壁紙, 壁紙模式隱藏懸浮按鈕",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["壁紙模式會把懸浮按鈕也隱藏起來"]
+        },
+        {
+          "name": "修復",
+          "descs": ["頂欄隱藏時圖示沒有往上挪"]
+        },
+        {
+          "name": "懸浮按鈕手勢",
+          "descs": ["上滑: 重渲染&切換壁紙", "左滑: 懸浮按鈕左靠", "右滑: 懸浮按鈕右靠", "下滑: 切換壁紙模式"]
+        },
+        {
+          "name": "說明",
+          "descs": ["壁紙模式下: 下滑取消壁紙模式", "非壁紙模式: 下滑顯示\\隱藏頂欄"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.40",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 新增壁紙模式、懸浮按鈕手勢",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["壁紙模式", "懸浮按鈕手勢"]
+        },
+        {
+          "name": "懸浮按鈕手勢",
+          "descs": ["上滑: 刷新頁面 (效果同按兩下)", "左滑: 懸浮按鈕左靠", "右滑: 懸浮按鈕右靠", "下滑: 切換壁紙模式"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.39",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 修復部分情況下拉出頂欄事件失效問題",
+      "notes": [
+        {
+          "name": "修復",
+          "descs": ["部分情況下拉出頂欄事件失效問題"]
+        },
+        {
+          "name": "優化",
+          "descs": ["原來頂部的載入條移到底欄上方"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.38",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 新增 Surge HTTP-API 環境下運行腳本會顯示運行結果",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["Surge HTTP-API 環境下運行腳本會顯示運行結果"]
+        },
+        {
+          "name": "優化",
+          "descs": ["頁面樣式"]
+        },
+        {
+          "name": "移除",
+          "descs": ["頂欄跟隨滾動"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.37",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "msg": "更新[BoxJs TF]: 應用標題加陰影, 優化調試代碼, 按一下首頁重渲染壁紙",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["應用標題加陰影"]
+        },
+        {
+          "name": "調試",
+          "descs": ["優化代碼"]
+        },
+        {
+          "name": "新增",
+          "descs": ["按一下首頁回到頂部, 再按一下一次重新渲染壁紙"]
+        },
+        {
+          "name": "壁紙",
+          "descs": ["無背景,", "隨機,https://uploadbeta.com/api/pictures/random", "推女郎,https://uploadbeta.com/api/pictures/random/?key=推女郎", "性感,https://uploadbeta.com/api/pictures/random/?key=性感", "車模,https://uploadbeta.com/api/pictures/random/?key=車模", "美腿,https://uploadbeta.com/api/pictures/random/?key=美腿", "美女,https://uploadbeta.com/api/pictures/random/?key=美女", "手機妹子,http://api.btstu.cn/sjbz/zsy.php", "手機美女,http://api.btstu.cn/sjbz/?m_lx=suiji"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.36",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["下拉顯示&隱藏搜索欄"]
+        },
+        {
+          "name": "優化",
+          "descs": ["固定背景"]
+        },
+        {
+          "name": "修復",
+          "descs": ["搜索欄高度問題"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.35",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "調試",
+          "descs": ["調試模式下支援自訂頁面源碼位址"]
+        },
+        {
+          "name": "修復",
+          "descs": ["底欄事件無效問題", "部分情況下貢獻者重複載入問題", "手勢前進後退會白屏&卡屏問題"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.33",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["支援前進、後退", "WebApp 狀態下刷新能留在當前頁面"]
+        },
+        {
+          "name": "修復",
+          "descs": ["側欄拉不到底缺陷"]
+        },
+        {
+          "name": "調試",
+          "descs": ["支援 vue devtool (側欄開啟調試模式)"]
+        },
+        {
+          "name": "感謝",
+          "descs": ["感謝 @id77 大佬 PR"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.30",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["首頁背景可以一直固定住"]
+        },
+        {
+          "name": "感謝",
+          "descs": ["感謝 @id77 大佬 PR"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.29",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "代碼編輯器",
+          "descs": ["Surge HTTP-API 環境下執行的代碼能顯示回應內容"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.28",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["數據後端渲染", "更快更平順的首頁載入", "不閃屏了"]
+        },
+        {
+          "name": "感謝",
+          "descs": ["感謝 @eslint 大佬提供幫助"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.27",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["首頁樣式", "操作體驗"]
+        },
+        {
+          "name": "首頁",
+          "descs": ["頂欄透明", "可以隱藏頂欄", "頂欄可以固定或跟隨滾動"]
+        },
+        {
+          "name": "懸浮按鈕",
+          "descs": ["增加搜索入口"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.26",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "調整",
+          "descs": ["搜索條樣式", "搜索操作介面"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.24",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "修復",
+          "descs": ["解決首屏閃屏問題", "解決圖示白邊問題", "導入會話報錯"]
+        },
+        {
+          "name": "感謝",
+          "descs": ["感謝 @eslint 大佬提供幫助"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.21",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["一鍵清空會話數據"]
+        },
+        {
+          "name": "優化",
+          "descs": ["壁紙狀態下圖示字體顏色為白色", "其他樣式優化"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.20",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["勿擾模式下, 不再忽略手動執行腳本時發出的系統通知"]
+        },
+        {
+          "name": "新增",
+          "descs": ["可以設置多張壁紙 (偏好設置)"]
+        },
+        {
+          "name": "注意",
+          "descs": ["設置多張壁紙後，在側欄切換"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.18",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["代碼編輯器 (入口: 懸浮按鈕)"]
+        },
+        {
+          "name": "說明",
+          "descs": ["除了本機運行外", "可以使用 PC 連上 QuanX 的 HTTP Backend", "實現在 PC 上寫代碼然後發送到 QuanX 執行", "Surge、Loon 同理"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.17",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["首頁壁紙 (偏好設置)"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.16",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["首頁圖示樣式"]
+        },
+        {
+          "name": "修復",
+          "descs": ["首頁圖示點擊無效問題", "首頁圖示有輕微位移問題", "説明頁面打開空白"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.11",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["首頁顯示收藏應用", "訂閱中的更多按鈕可以連結到作者倉庫"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.9",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "新增",
+          "descs": ["可以修改會話", "增加幫忙手冊入口", "推薦訂閱入口"]
+        },
+        {
+          "name": "調整",
+          "descs": ["調整載入動態效果"]
+        },
+        {
+          "name": "修復",
+          "descs": ["boolean 控制項偶爾觸發鍵盤問題"]
+        }
+      ]
+    },
+    {
+      "version": "0.7.7",
+      "tags": ["beta"],
+      "author": "@chavyleung",
+      "icon": "https://avatars3.githubusercontent.com/u/29748519",
+      "repo": "https://github.com/chavyleung",
+      "notes": [
+        {
+          "name": "優化",
+          "descs": ["全程無刷新", "獨立分離頁面", "優化資料結構減少記憶體佔用"]
+        },
+        {
+          "name": "操作",
+          "descs": ["可以修復全域備份的名字", "點擊'應用'回到頂部，再次按一下折疊面板", "點擊'訂閱'回到頂部，再次按一下刷新訂閱", "點擊具體訂閱可刷新"]
+        }
+      ]
+    }
+  ]
+}
+
