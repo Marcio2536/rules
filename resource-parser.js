@@ -1,4 +1,4 @@
-/** 
+/*
  主要功能: 
  將其它格式的伺服器訂閱解析成 𝐐𝐮𝐚𝐧𝐭𝐮𝐦𝐮𝐥𝐭 𝐗 格式
  支援 𝗩𝗺𝗲𝘀𝘀/𝗦𝗦(𝗥/𝗗)/𝗛𝗧𝗧𝗣(𝗦)/𝗧𝗿𝗼𝗷𝗮𝗻/𝗤𝘂𝗮𝗻𝘁𝘂𝗺𝘂𝗹𝘁(𝗫)/𝗦𝘂𝗿𝗴𝗲/𝐂𝐥𝐚𝐬𝐡/𝐒𝐡𝐚𝐝𝐨𝐰𝐫𝐨𝐜𝐤𝐞𝐭/𝐋𝐨𝐨𝐧 格式
@@ -7,21 +7,21 @@
  用於禁用遠端參照中某(幾)項 𝗿𝗲𝘄𝗿𝗶𝘁𝗲/𝗵𝗼𝘀𝘁𝗻𝗮𝗺𝗲/𝗳𝗶𝗹𝘁𝗲𝗿
  𝐒𝐮𝐫𝐠𝐞/𝐂𝐥𝐚𝐬𝐡 類型規則 𝗹𝗶𝘀𝘁 與 模組 𝐦𝐨𝐝𝐮𝐥𝐞 的解析使用
 ----------------------------------------------------------
-⟦原始連結⟧ 後加 "#" 使用, 不同參數用 "&" 連接: 
- 𝐡𝐭𝐭𝐩𝐬://𝐦𝐲𝐬𝐮𝐛.𝐜𝐨𝐦#𝙚𝙢𝙤𝙟𝙞=1&𝙩𝙛𝙤=1&𝙞𝙣=香港+臺灣
- 本地資源片段引用, 請將參數 "#𝗶𝗻=𝘅𝘅𝘅." 填入文件第 ① 行 ❖
- 支援中文, "操作" 以下特殊字元時請先替換 
- "+"⇒"%2B", 空格⇒"%20", "@"⇒"%40", "&"⇒"%26", "."⇒"\."
+ ⟦原始連結⟧ 後加 "#" 使用, 不同參數用 "&" 連接: 
+   𝐡𝐭𝐭𝐩𝐬://𝐦𝐲𝐬𝐮𝐛.𝐜𝐨𝐦#𝙚𝙢𝙤𝙟𝙞=1&𝙩𝙛𝙤=1&𝙞𝙣=香港+臺灣
+   本地資源片段引用, 請將參數 "#𝗶𝗻=𝘅𝘅𝘅." 填入文件第 ① 行 ❖
+   支援中文, "操作" 以下特殊字元時請先替換 🚦
+   "+"⇒"%2B", 空格⇒"%20", "@"⇒"%40", "&"⇒"%26", "."⇒"\."
 
-⟦𝐬𝐞𝐫𝐯𝐞𝐫 節點⟧ ➠ 參數說明:
+1️⃣ ⟦𝐬𝐞𝐫𝐯𝐞𝐫 節點⟧ ➠ 參數說明:
  𝗶𝗻𝗳𝗼=1, 開啟通知提示機場 ✈️ 流量資訊(如有提供);
  𝗲𝗺𝗼𝗷𝗶=1(國行設備用2)/-1, 添加/刪除節點名內地區旗幟;
  𝘂𝗱𝗽=1/-1, 𝘁𝗳𝗼=1/-1, 分別強制開啟(關閉) 𝐮𝐝𝐩-𝐫𝐞𝐥𝐚𝐲/𝐟𝐚𝐬𝐭-𝐨𝐩𝐞𝐧;
  𝘁𝗹𝘀13=1, 𝗰𝗲𝗿𝘁=1, 分別開啟 𝐭𝐥𝐬1.3 及 𝐭𝐥𝐬 證書驗證(默認關閉);
  𝗶𝗻, 𝗼𝘂𝘁, 𝗿𝗲𝗴𝗲𝘅 分別為 保留、刪除、正則篩選 節點;
-   I𝗻, 𝗼𝘂𝘁 中多參數(邏輯"或")用 "+", 邏輯"與"用 "." 表示;
+   𝗶𝗻, 𝗼𝘂𝘁 中多參數(邏輯"或")用 "+", 邏輯"與"用 "." 表示;
    𝗿𝗲𝗴𝗲𝘅 會對節點的完整資訊進行匹配(類型、埠、加密等);
-  示範: "𝐢𝐧=香港.0\.2倍率+臺灣&𝐨𝐮𝐭=香港%20𝐁𝐆𝐏&𝐫𝐞𝐠𝐞𝐱=(?𝐢)𝐢𝐩𝐥𝐜"
+   示範: "𝐢𝐧=香港.0\.2倍率+臺灣&𝐨𝐮𝐭=香港%20𝐁𝐆𝐏&𝐫𝐞𝐠𝐞𝐱=(?𝐢)𝐢𝐩𝐥𝐜"
  𝗿𝗲𝗻𝗮𝗺𝗲 重命名, "舊名@新名", "首碼@", "@尾碼", 用 "+" 連接多個參數;
    刪除欄位: "欄位1.欄位2☠️", 想刪除 "." 時用 "\." 替代
    示範: "𝐫𝐞𝐧𝐚𝐦𝐞=香港@𝐇𝐊+[𝐒𝐒]@+@[1𝐗]+流量.0\.2☠️"
@@ -31,16 +31,14 @@
    𝗿𝗲𝗽𝗹𝗮𝗰𝗲=𝗿𝗲𝗴𝗲𝘅1@𝘀𝘁𝗿1+𝗿𝗲𝗴𝗲𝘅2@𝘀𝘁𝗿2
    𝗿𝗲𝗽𝗹𝗮𝗰𝗲=𝗿𝗲𝗴𝗲𝘅1@ 則等效於 𝗱𝗲𝗹𝗿𝗲𝗴 參數
  𝘀𝗼𝗿𝘁=1/-1/x/指定規則, 分別按節點名 正/逆/隨機/指定規則 排序
-   指定規則是規則運算式或簡單關鍵字, 用"<" 或 ">" 連接
-   𝘀𝗼𝗿𝘁=🇭🇰>🇸🇬>🇯🇵>🇺🇸 , 靠前排序
-   𝘀𝗼𝗿𝘁=IEPL<IPLC<BGP , 靠後排序
+    指定規則是規則運算式或簡單關鍵字, 用"<" 或 ">" 連接
+    𝘀𝗼𝗿𝘁=🇭🇰>🇸🇬>🇯🇵>🇺🇸 , 靠前排序
+    𝘀𝗼𝗿𝘁=IEPL<IPLC<BGP , 靠後排序
  ⟦進階參數⟧: 𝘀𝗳𝗶𝗹𝘁𝗲𝗿/𝘀𝗿𝗲𝗻𝗮𝗺𝗲, 傳入一段 base64 編碼的腳本, 可用於過濾/重命名訂閱節點
-   說明: https://github.com/KOP-XIAO/QuantumultX/pull/9
-
-2⃣️ ⟦𝐫𝐞𝐰𝐫𝐢𝐭𝐞 重寫⟧/⟦𝐟𝐢𝐥𝐭𝐞𝐫 分流⟧ ➠ 參數說明:
+ ⟦𝐫𝐞𝐰𝐫𝐢𝐭𝐞 重寫⟧/⟦𝐟𝐢𝐥𝐭𝐞𝐫 分流⟧ ➠ 參數說明:
  𝗶𝗻, 𝗼𝘂𝘁, 根據關鍵字 保留/禁用 相關分流、重寫規則;
  𝗶𝗻𝗵𝗻, 𝗼𝘂𝘁𝗵𝗻, “保留/刪除”主機名稱(𝒉𝒐𝒔𝒕𝒏𝒂𝒎𝒆);
-   示範: 禁用 "淘寶比價" 及 "weibo" 的 js 同主機名稱
+  ❖ 示範: 禁用 "淘寶比價" 及 "weibo" 的 js 同主機名稱
 𝐡𝐭𝐭𝐩𝐬://𝐦𝐲𝐥𝐢𝐬𝐭#𝒐𝒖𝒕=𝒕𝒃_𝒑𝒓𝒊𝒄𝒆.𝒋𝒔+𝒘𝒃_𝒂𝒅.𝒋𝒔&𝒐𝒖𝒕𝒉𝒏=𝒘𝒆𝒊𝒃𝒐
  𝗿𝗲𝗴𝗲𝘅, 正則篩選, 請自行折騰規則運算式;
    可與 𝗶𝗻(𝗵𝗻)/𝗼𝘂𝘁(𝗵𝗻) 一起使用，𝗶𝗻(𝗵𝗻)/𝗼𝘂𝘁(𝗵𝗻) 會優先執行;
@@ -49,37 +47,23 @@
  𝗿𝗲𝗽𝗹𝗮𝗰𝗲 參數, 正則替換 𝐟𝐢𝐥𝐭𝐞𝐫/𝐫𝐞𝐰𝐫𝐢𝐭𝐞 內容, regex@newregex;
    將淘寶比價中腳本替換成 lite 版本, tiktok 中 JP 換成 KR
      𝐫𝐞𝐩𝐥𝐚𝐜𝐞=(𝐩𝐫𝐢𝐜𝐞)(.*)@$1_𝐥𝐢𝐭𝐞$2+𝐣𝐩@𝐤𝐫 
- 𝗱𝘀𝘁=𝐫𝐞𝐰𝐫𝐢𝐭𝐞/𝐟𝐢𝐥𝐭𝐞𝐫，分別為將 𝐦𝐨𝐝𝐮𝐥𝐞&𝗿𝘂𝗹𝗲-𝘀𝗲𝘁 轉換成 重寫/分流;
-    默認將 𝐦𝐨𝐝𝐮𝐥𝐞 轉換到重寫, 𝗿𝘂𝗹𝗲-𝘀𝗲𝘁 轉成分流
-    把 𝗿𝘂𝗹𝗲-𝘀𝗲𝘁 中 𝐮𝐫𝐥-𝐫𝐞𝐠𝐞𝐱 轉成重寫時, 必須要加 𝗱𝘀𝘁=𝐫𝐞𝐰𝐫𝐢𝐭𝐞;
-    把 𝐦𝐨𝐝𝐮𝐥𝐞 中的分流規則轉換時, 必須要加 𝗱𝘀𝘁=𝐟𝐢𝐥𝐭𝐞𝐫
+  𝗱𝘀𝘁=𝐫𝐞𝐰𝐫𝐢𝐭𝐞/𝐟𝐢𝐥𝐭𝐞𝐫，分別為將 𝐦𝐨𝐝𝐮𝐥𝐞&𝗿𝘂𝗹𝗲-𝘀𝗲𝘁 轉換成 重寫/分流;
+      默認將 𝐦𝐨𝐝𝐮𝐥𝐞 轉換到重寫, 𝗿𝘂𝗹𝗲-𝘀𝗲𝘁 轉成分流
+      把 𝗿𝘂𝗹𝗲-𝘀𝗲𝘁 中 𝐮𝐫𝐥-𝐫𝐞𝐠𝐞𝐱 轉成重寫時, 必須要加 𝗱𝘀𝘁=𝐫𝐞𝐰𝐫𝐢𝐭𝐞;
+      把 𝐦𝐨𝐝𝐮𝐥𝐞 中的分流規則轉換時, 必須要加 𝗱𝘀𝘁=𝐟𝐢𝐥𝐭𝐞𝐫
 
 其他參數
  通知參數 𝗻𝘁𝗳=0/1, 用於 關閉/打開 資源解析器的提示通知
    𝗿𝗲𝘄𝗿𝗶𝘁𝗲/𝗳𝗶𝗹𝘁𝗲𝗿 預設“開啟”通知提示, 以防規則誤刪除
    𝘀𝗲𝗿𝘃𝗲𝗿 資源解析則默認”關閉“通知提示
-⦿ 類型參數 type=domain-set/rule/module/list
-  ❖ 當解析器未能正確識別類型時, 可使用此參數強制指定
-  date: 2020-11-14
-----------------------------------------------------
+ 類型參數 type=domain-set/rule/module/list
+   當解析器未能正確識別類型時, 可嘗試使用此參數強制指定
+date: 2020-12-15
 */
 
 
-/**
-* 使用說明，
-0️⃣ 在QuantumultX 設定檔中[general] 部分，加入 
-resource_parser_url = https://raw.githubusercontent.com/KOP-XIAO/QuantumultX/master/Scripts/resource-parser.js
-⚠️⚠️如提示"沒有自訂解析器"，請長按右下角圖示後點擊左側刷新按鈕，更新資源，後臺退出 app，直到出現解析器說明
-1️⃣ 假設原始訂閱連接為: https://raw.githubusercontent.com/crossutility/Quantumult-X/master/server-complete.txt , 
-2️⃣ 假設你想要保留的參數為 in=tls+ss, 想要過濾的參數為 out=http+2, 請注意下面訂閱連結後一定要加 ”#“ 符號
-3️⃣ 則填入 Quanx 節點引用的的總連結為  https://raw.githubusercontent.com/crossutility/Quantumult-X/master/server-complete.txt#in=tls+ss&out=http+2
-4️⃣ 填入上述連結, 並打開的資源解析器開關
-------------------------------
-*/
 
-var link0 = $resource.link;
-var content0 = $resource.content;
-const subinfo = $resource.info;
+let [link0, content0, subinfo] = [$resource.link, $resource.content, $resource.info]
 const subtag = $resource.tag != undefined ? $resource.tag : "";
 // 非 raw 連結的沙雕情形
 content0 = content0.indexOf("DOCTYPE html") != -1 && link0.indexOf("github.com") != -1 ? ToRaw(content0) : content0 ;
@@ -139,66 +123,24 @@ var pfo = Pout0 ? "out=" + Pout0.join(", ") : ""
 var pfihn = Phin0 ? "inhn=" + Phin0.join(", ") + ",  " : ""
 var pfohn = Phout0 ? "outhn=" + Phout0.join(", ") : ""
 var Pcnt =  para1.indexOf("cnt=") != -1 ? para1.split("cnt=")[1].split("&")[0] : 0;
-var flow = "";
-var exptime = "";
+let [flow, exptime, errornode, total] = "";
 
 var typeU = para1.indexOf("type=") != -1 ? para1.split("type=")[1].split("&")[0] : "";
 var type0 = Type_Check(content0); //  類型判斷
-//$notify(type0,"hh",content0)
+//$notify(type0,"hh")
 
 //flag=1,2,3分別為 server、rewrite、rule 類型
-const errornode=""
 var flag = 1
 
 try {
-  ResourceParse();
+  total = ResourceParse();
+  
 } catch (err) {
-    $notify("❌ 解析出現錯誤", "", err);
+    $notify("解析出現錯誤", "請點擊發送連結回饋", err, bug_link);
 }
 
-if (flag == 1) { //server 類型統一處理
-    total = total.filter(Boolean)
-    if (Pinfo == 1 && ntf_flow == 0) { //假節點類型的流量通知
-        flowcheck(total)
-    }
-    if (Pin0 || Pout0) { total = Filter(total, Pin0, Pout0) } // in & out 
-    if (Preg) { total = total.map(Regex).filter(Boolean)  // regex
-    	RegCheck(total, "節點訂閱", Preg)} 
-    if (Psfilter) { total = FilterScript(total, Psfilter) }
-    if (Prrname) {
-        var Prn = Prrname;
-        total = total.map(Rename);
-    }
-    if (Pemoji) { total = emoji_handle(total, Pemoji); }
-    if (Prname) {
-        var Prn = Prname;
-        total = total.map(Rename);
-    }
-    if (Pregdel) {
-        var delreg = Pregdel
-        total = total.map(DelReg)
-    }
-    if (Preplace) { // server 類型也可用 replace 參數進行重命名操作
-        total = ReplaceReg(total, Preplace)
-    }
-    if (Psrename) { total = RenameScript(total, Psrename) }
-    if (Psort0) {
-        total = QXSort(total, Psort0);
-    }
-    if (total.length > 0){
-      if (Pcnt == 1) {$notify("Final Content" , "Nodes: " +total.length, total)}
-      total = TagCheck_QX(total).join("\n") //節點名檢查
-      total = Base64.encode(total) //強制節點類型 base64 加密後再導入 Quantumult X
-      $done({ content: total });
-    } else {
-      $notify("❓❓ 友情提示", "⚠️⚠️ 解析後無有效內容", "🚥🚥 請自行檢查相關參數, 或者點擊通知跳轉回饋", bug_link)
-      $done({ content: errornode })
-    }
-} else if (flag == 0){
-  $done({ content: errornode })
-} else if (flag == -1){
-  $done({ content: content0 })
-} else { $done({ content: total });}
+$done({ content: total });
+
 
 /**
 # 以下為具體的 function
@@ -206,6 +148,7 @@ if (flag == 1) { //server 類型統一處理
 */
 
 function ResourceParse() {
+  //預處理，分流/重寫等處理完成
   if (type0 == "Subs-B64Encode") {
     total = Subs2QX(Base64.decode(content0), Pudp0, Ptfo0, Pcert0, PTls13);
   } else if (type0 == "Subs") {
@@ -222,7 +165,7 @@ function ResourceParse() {
     total = total.join("\n")
   } else if (type0 == "rewrite") { // rewrite 類型
     flag = 2;
-    total = Rewrite_Filter(content0.split("\n"), Pin0, Pout0);
+    total = Rewrite_Filter(isQuanXRewrite(content0.split("\n")), Pin0, Pout0);
     if (Preplace) { total = ReplaceReg(total, Preplace) }
     total = total.join("\n")
   } else if (type0 == "Rule") {  // rule 類型, 已處理完畢
@@ -230,16 +173,66 @@ function ResourceParse() {
     total = Rule_Handle(content0.split("\n"), Pout0, Pin0).filter(Boolean);
     if (Preg && total.length!=0) { // 正則篩選規則 filter
     total = total.map(Regex).filter(Boolean).join("\n") 
-    if (Preplace) { total = ReplaceReg(total, Preplace) }
     RegCheck(total, "分流引用", Preg)} 
+    if (Preplace) { total = ReplaceReg(total, Preplace) }
     total = total.join("\n")
   } else if (content0.trim() == "") {
     $notify("‼️ 引用" + "⟦" + subtag + "⟧" + " 返回內容為空", "⁉️ 點通知跳轉以確認連結是否失效", para.split("#")[0], nan_link);
     flag = 0;
   } else if (type0 == "unknown") {
-    $notify("😭 未能解析, 可能是 bug ⁉️  " + "⟦" + subtag + "⟧", "👻 本解析器 暫未支持/未能識別 該訂閱格式", "⚠️ 將直接導入Quantumult X \n 如認為是 BUG, 請點通知跳轉回饋", bug_link);
+    $notify("未能解析" + "⟦" + subtag + "⟧", "本解析器 暫未支持/未能識別 該訂閱格式", "⚠將直接導入Quantumult X \n 如認為是 BUG, 請點通知跳轉回饋", bug_link);
     flag = -1;
-  } else { flag = 0 }
+  }
+  
+  //開始處理
+  if (flag == 1) { //server 類型統一處理
+    total = total.filter(Boolean)
+    if (Pinfo == 1 && ntf_flow == 0) { //假節點類型的流量通知
+      flowcheck(total)
+    }
+    if (Pin0 || Pout0) { total = Filter(total, Pin0, Pout0) } // in & out 
+    if (Preg) { total = total.map(Regex).filter(Boolean)  // regex
+      RegCheck(total, "節點訂閱", Preg)} 
+    if (Psfilter) { total = FilterScript(total, Psfilter) }
+    if (Prrname) {
+      Prn = Prrname;
+      total = total.map(Rename);
+    }
+    if (Pemoji) { total = emoji_handle(total, Pemoji); }
+    if (Prname) {
+      Prn = Prname;
+      total = total.map(Rename);
+    }
+    if (Pregdel) {
+      delreg = Pregdel
+      total = total.map(DelReg)
+    }
+    if (Preplace) { // server 類型也可用 replace 參數進行重命名操作
+      total = ReplaceReg(total, Preplace)
+    }
+    if (Psrename) { total = RenameScript(total, Psrename) }
+    if (Psort0) {
+      total = QXSort(total, Psort0);
+    }
+    if (total.length > 0){
+      if (Pcnt == 1) {$notify("Final Content" , "Nodes: " +total.length, total)}
+      total = TagCheck_QX(total).join("\n") //節點名檢查
+      total = Base64.encode(total) //強制節點類型 base64 加密後再導入 Quantumult X
+      //$done({ content: total });
+    } else {
+      $notify("❓❓ 友情提示", "解析後無有效內容", "🚥🚥 請自行檢查相關參數, 或者點擊通知跳轉回饋", bug_link)
+      total = errornode
+      //$done({ content: errornode })
+    }
+  } else if (flag == 0){ //空/錯誤類型
+    total = errornode
+    //$done({ content: errornode })
+  } else if (flag == -1){ //未知類型
+    total = content0
+    //$done({ content: content0 })
+  } 
+  return total
+  
 }
 
 //回應頭流量處理部分
@@ -296,7 +289,7 @@ function Type_Check(subs) {
     var QuanXK = ["shadowsocks=", "trojan=", "vmess=", "http="];
     var SurgeK = ["=ss,", "=vmess,", "=trojan,", "=http,", "=custom,", "=https,", "=shadowsocks", "=shadowsocksr"];
     var ClashK = ["proxies:"]
-    var SubK = ["dm1lc3M", "c3NyOi8v", "CnNzOi8", "dHJvamFu", "c3M6Ly", "c3NkOi8v", "c2hhZG93"];
+    var SubK = ["dm1lc3M", "c3NyOi8v", "CnNzOi8", "dHJvamFu", "c3M6Ly", "c3NkOi8v", "c2hhZG93",,"aHR0c"];
     var RewriteK = [" url "]
     var SubK2 = ["ss://", "vmess://", "ssr://", "trojan://", "ssd://", "https://"];
     var ModuleK = ["[Script]", "[Rule]", "[URL Rewrite]", "[Map Local]", "[MITM]", "\nhttp-r"]
@@ -312,11 +305,11 @@ function Type_Check(subs) {
     }  else if (ClashK.some(NodeCheck) || typeU == "clash"){ // Clash 類型節點轉換
       type = "Clash";
       content0 = Clash2QX(subs)
+    } else if ((subi.indexOf("hostname=") != -1 || RewriteK.some(RewriteCheck) || subi.indexOf("pattern=") != -1) && subs.indexOf("[Proxy]") == -1 && subs.indexOf("[server_local]") == -1 && para1.indexOf("dst=filter")==-1 && subi.indexOf("securehostname") == -1) {
+      type = "rewrite" //Quantumult X 類型 rewrite/ Surge Script/
     } else if ( ((ModuleK.some(RewriteCheck) || para1.indexOf("dst=rewrite") != -1) && (para1.indexOf("dst=filter") == -1) && subs.indexOf("[Proxy]") == -1) || typeU == "module") { // Surge 類型 module /rule-set(含url-regex) 類型
       type = "sgmodule"
-    } else if ((subi.indexOf("hostname=") != -1 || RewriteK.some(RewriteCheck)) && subs.indexOf("[Proxy]") == -1 && subs.indexOf("[server_local]") == -1 && subs.indexOf("\nhttp-r") == -1 && para1.indexOf("dst=filter")==-1) {
-      type = "rewrite" //Quantumult X 類型 rewrite
-    } else if ((RuleK.some(RuleCheck) && subs.indexOf(html) == -1 && subs.indexOf("[Proxy]") == -1 && subs.indexOf("[server_local]") == -1) || typeU == "rule") {
+    } else if ((RuleK.some(RuleCheck) && subs.indexOf(html) == -1 && subs.indexOf("[Proxy]") == -1 && subs.indexOf("[server_local]") == -1) || typeU == "rule" ||para1.indexOf("dst=filter")!=-1) {
       type = "Rule";
     } else if ((DomainK.some(RuleCheck) || typeU == "domain-set") && subs.indexOf("[Proxy]") == -1 ) {
       type = "Rule";
@@ -393,7 +386,7 @@ function rawtest(cnt) {
 function ToRaw(cnt) {
   cnt = cnt.split("\n").map(rawtest).filter(Boolean).join("\n")
   var rawlink = link0.replace("github.com","raw.githubusercontent.com").replace("/blob","")
-  $notify( "⚠️⚠️ 將嘗試解析該資源" + "⟦" + subtag + "⟧" , "🚥 請正確使用GitHub的 raw 連結" , "❌ 你的連結："+link0+"\n✅ 正確連結："+rawlink, {"open-url":rawlink})
+  $notify( "⚠️  將嘗試解析該資源" + "⟦" + subtag + "⟧" , "🚥 請正確使用GitHub的 raw 連結" , "❌ 你的連結："+link0+"\n✅ 正確連結："+rawlink, {"open-url":rawlink})
   return cnt
 }
 
@@ -446,9 +439,11 @@ function SCP2QX(subs) {
               type = "script-request-body "
             } else if (type == "http-request" && subs[i].indexOf("requires-body=1") == -1) {
               type = "script-request-header "
+            } else {type = "" }
+            if (type != "") {
+              rw = ptn + " url " + type + js
+              nrw.push(rw)
             }
-            rw = ptn + " url " + type + js
-            nrw.push(rw)
           } else if (subs[i].indexOf(" 302") != -1 || subs[i].indexOf(" 307") != -1) { //rewrite 302&307 複寫
             rw = subs[i].split(" ")[0] + " url " + subs[i].split(" ")[2] + " " + subs[i].split(" ")[1]
             nrw.push(rw)
@@ -472,9 +467,12 @@ function SCP2QX(subs) {
               type = "script-request-body "
             } else if (type == "http-request" && subs[i].indexOf("requires-body=1") == -1) {
               type = "script-request-header "
+            } else {type = "" }
+            if (type != "") {
+              rw = ptn + " url " + type + js
+              nrw.push(rw)
             }
-            rw = ptn + " url " + type + js
-            nrw.push(rw)
+            
           }
         }
 
@@ -903,18 +901,21 @@ function Pobfs(jsonl, Pcert, Ptls13) {
     if (jsonl.net == "ws" && jsonl.tls == "tls") {
         obfs0 = "obfs=wss, " + tcert + ", " + tls13 + ", ";
         uri0 = jsonl.path && jsonl.path != "" ? "obfs-uri=" + jsonl.path : "obfs-uri=/";
+        uri0 = uri0.indexOf("uri=/")!=-1 ? uri0:uri0.replace("uri=","uri=/")
         host0 = jsonl.host && jsonl.host != "" ? "obfs-host=" + jsonl.host + ", " : "";
         obfsi.push(obfs0 + host0 + uri0)
         return obfsi.join(", ")
     } else if (jsonl.net == "ws") {
         obfs0 = "obfs=ws";
         uri0 = jsonl.path && jsonl.path != "" ? "obfs-uri=" + jsonl.path : "obfs-uri=/";
+        uri0 = uri0.indexOf("uri=/")!=-1 ? uri0:uri0.replace("uri=","uri=/")
         host0 = jsonl.host && jsonl.host != "" ? "obfs-host=" + jsonl.host + ", " : "";
         obfsi.push(obfs0, host0 + uri0);
         return obfsi.join(", ")
     } else if (jsonl.tls == "tls" && jsonl.net == "tcp") { // 過濾掉 h2/http 等類型 
         obfs0 = "obfs=over-tls, " + tcert + ", " + tls13;
         uri0 = jsonl.path && jsonl.path != "" ? "obfs-uri=" + jsonl.path : "";
+        uri0 = uri0.indexOf("uri=/")!=-1 ? uri0:uri0.replace("uri=","uri=/")
         host0 = jsonl.host && jsonl.host != "" ? ", obfs-host=" + jsonl.host : "";
         obfsi.push(obfs0 + host0)
         return obfsi.join(", ")
@@ -1075,7 +1076,7 @@ function SS2QX(subs, Pudp, Ptfo) {
         }
         pwd = "password=" + pwdmtd[1];
         mtd = "method=" + pwdmtd[0];
-        obfs = cnt.split("obfs%3D")[1] != null ? ", obfs=" + cnt.split("obfs%3D")[1].split("%3B")[0] : "";
+        obfs = cnt.split("obfs%3D")[1] != null ? ", obfs=" + cnt.split("obfs%3D")[1].split("%3B")[0].split("#")[0] : "";
         obfshost = cnt.split("obfs-host%3D")[1] != null ? ", obfs-host=" + cnt.split("obfs-host%3D")[1].split("&")[0].split("#")[0] : "";
         tag = "tag=" + decodeURIComponent(cnt.split("#")[1])
         pudp = Pudp == 1 ? "udp-relay=true" : "udp-relay=false";
@@ -1150,6 +1151,34 @@ function isQuanX(content) {
     }
     return nlist
 }
+
+//surge script/rewrite - > quanx
+function isQuanXRewrite(content) {
+  cnt = content
+  cnt0=[]
+  for (var i = 0; i< cnt.length; i++){
+    if(cnt[i]){
+      var cnti = cnt[i]
+      if (cnti.indexOf("pattern")!=-1 && cnti.indexOf("type")!=-1 || cnti.indexOf("http-r")!=-1) {
+        cnti=SGMD2QX(cnti)[0]? SGMD2QX(cnti)[0]:""
+        //console.log(cnti)
+      }else if ((cnti.indexOf(" 302")!=-1 || cnti.indexOf(" 307")!=-1) && cnti.indexOf(" url ")==-1){
+        cnti=SGMD2QX(cnti)[0]? SGMD2QX(cnti)[0]:""
+        //console.log("sss",cnti)
+      }else if(cnti.indexOf("URL-REGEX")!=-1 || cnti.indexOf(" header")!=-1 || cnti.replace(/ /g,"").indexOf("hostname=")!=-1){
+        cnti=SGMD2QX(cnti)[0]? SGMD2QX(cnti)[0]:""
+      }else if(cnti.indexOf(" data=")!=-1){
+        cnti=cnti.replace(/ /g, "").split("data=")[0] + " url " + "reject-dict"
+      }
+      if (cnti.trim()[0]!="[" && cnti.indexOf("RULE-SET")==-1) {
+        cnt0.push(cnti)
+      }
+    }
+  }
+  //console.log(cnt0)
+  return cnt0
+}
+
 
 //根據節點名排序(不含emoji 部分)
 function QXSort(content, para) {
@@ -1323,7 +1352,7 @@ function emoji_handle(servers, Pemoji) {
             var oname = ser0[i].split("tag=")[1].trim();
             var hd = ser0[i].split("tag=")[0];
             var nname = oname;//emoji_del(oname);
-            var Lmoji = { "🏳️‍🌈": ["流量", "時間", "應急", "過期", "Bandwidth", "expire"], "🇦🇹": ["奧地利", "Austria", "維也納"], "🇦🇺": ["AU", "Australia", "Sydney", "澳大利亞", "澳洲", "墨爾本", "悉尼"], "🇧🇪": ["BE", "比利時"], "🇧🇬": ["保加利亞", "Bulgaria"], "🇧🇷": ["BR", "Brazil", "巴西", "聖保羅"], "🇨🇦": ["Canada", "Waterloo", "加拿大", "蒙特利爾", "溫哥華", "楓葉", "楓葉", "滑鐵盧", "多倫多"], "🇨🇭": ["瑞士", "蘇黎世", "Switzerland"], "🇩🇪": ["DE", "German", "GERMAN", "德國", "德國", "法蘭克福"], "🇩🇰": ["丹麥"], "🇪🇸": ["ES", "西班牙", "Spain"], "🇪🇺": ["EU", "歐盟", "歐羅巴"], "🇫🇮": ["Finland", "芬蘭", "赫爾辛基"], "🇫🇷": ["FR", "France", "法國", "法國", "巴黎"], "🇬🇧": ["UK", "GB", "England", "United Kingdom", "英國", "倫敦", "英"], "🇲🇴": ["MO", "Macao", "澳門", "澳", "CTM"], "🇰🇿": ["哈薩克"], "🇭🇺": ["匈牙利", "Hungary"], "🇭🇰": ["HK", "Hongkong", "Hong Kong", "HongKong", "香港", "深港", "滬港", "呼港", "HKT", "HKBN", "HGC", "WTT", "CMI", "穗港", "京港", "港"], "🇮🇩": ["Indonesia", "印尼", "印尼", "雅加達"], "🇮🇪": ["Ireland", "愛爾蘭", "都柏林"], "🇮🇳": ["India", "印度", "孟買", "Mumbai"], "🇰🇵": ["KP", "朝鮮"], "🇰🇷": ["KR", "Korea", "KOR", "韓國", "首爾", "韓", "韓"], "🇱🇻": ["Latvia", "Latvija", "拉脫維亞"], "🇲🇽️": ["MEX", "MX", "墨西哥"], "🇲🇾": ["MY", "Malaysia", "馬來西亞", "吉隆玻"], "🇳🇱": ["NL", "Netherlands", "荷蘭", "荷蘭", "尼德蘭", "阿姆斯特丹"], "🇵🇭": ["PH", "Philippines", "菲律賓"], "🇷🇴": ["RO", "羅馬尼亞"], "🇷🇺": ["RU", "Russia", "俄羅斯", "俄國", "俄羅斯", "伯力", "莫斯科", "聖彼德堡", "西伯利亞", "新西伯利亞", "京俄", "杭俄"], "🇸🇦": ["沙特", "迪拜"], "🇸🇪": ["SE", "Sweden"], "🇸🇬": ["SG", "Singapore", "新加坡", "獅城", "滬新", "京新", "泉新", "穗新", "深新", "杭新", "廣新"], "🇹🇭": ["TH", "Thailand", "泰國", "泰國", "曼谷"], "🇹🇷": ["TR", "Turkey", "土耳其", "伊斯坦布爾"], "🇹🇼": ["TW", "Taiwan", "臺灣", "臺北", "台中", "新北", "彰化", "CHT", "台", "HINET"], "🇺🇸": ["US", "USA", "America", "United States", "美國", "美", "京美", "波特蘭", "達拉斯", "俄勒岡", "鳳凰城", "費利蒙", "矽谷", "矽穀", "拉斯維加斯", "洛杉磯", "聖約瑟", "聖克拉拉", "西雅圖", "芝加哥", "滬美", "哥倫布", "紐約"], "🇻🇳": ["VN", "越南", "胡志明市"], "🇮🇹": ["Italy", "IT", "Nachash", "義大利", "米蘭", "義大利"], "🇿🇦": ["South Africa", "南非"], "🇦🇪": ["United Arab Emirates", "阿聯酋"], "🇯🇵": ["JP", "Japan", "日", "日本", "東京", "大阪", "埼玉", "滬日", "穗日", "川日", "中日", "泉日", "杭日", "深日", "遼日", "廣日"], "🇦🇷": ["AR", "阿根廷"], "🇳🇴": ["Norway", "挪威", "NO"], "🇨🇳": ["CN", "China", "回國", "中國", "江蘇", "北京", "上海", "廣州", "深圳", "杭州", "徐州", "青島", "寧波", "鎮江", "back"] }
+            var Lmoji = { "🏳️‍🌈": ["流量", "時間", "應急", "過期", "Bandwidth", "expire"], "🇦🇹": ["奧地利", "Austria", "維也納"], "🇦🇺": ["AU", "Australia", "Sydney", "澳大利亞", "澳洲", "墨爾本", "悉尼"], "🇧🇪": ["BE", "比利時"], "🇧🇬": ["保加利亞", "Bulgaria"], "🇧🇷": ["BR", "Brazil", "巴西", "聖保羅"], "🇨🇦": ["Canada","CANADA", "Waterloo", "加拿大", "蒙特利爾", "溫哥華", "楓葉", "楓葉", "滑鐵盧", "多倫多"], "🇨🇭": ["瑞士", "蘇黎世", "Switzerland"], "🇩🇪": ["DE", "German", "GERMAN", "德國", "德國", "法蘭克福"], "🇩🇰": ["丹麥"], "🇪🇸": ["ES", "西班牙", "Spain"], "🇪🇺": ["EU", "歐盟", "歐羅巴"], "🇫🇮": ["Finland", "芬蘭", "赫爾辛基"], "🇫🇷": ["FR", "France", "法國", "法國", "巴黎"], "🇬🇧": ["UK", "GB", "England", "United Kingdom", "英國", "倫敦", "英"], "🇲🇴": ["MO", "Macao", "澳門", "澳", "CTM"], "🇰🇿": ["哈薩克"], "🇭🇺": ["匈牙利", "Hungary"], "🇭🇰": ["HK", "Hongkong", "Hong Kong", "HongKong", "HONG KONG","香港", "深港", "滬港", "呼港", "HKT", "HKBN", "HGC", "WTT", "CMI", "穗港", "京港", "港"], "🇮🇩": ["Indonesia", "印尼", "印尼", "雅加達"], "🇮🇪": ["Ireland", "IRELAND", "愛爾蘭", "都柏林"], "🇮🇳": ["India", "INDIA","印度", "孟買", "Mumbai"], "🇰🇵": ["KP", "朝鮮"], "🇰🇷": ["KR", "Korea", "KOR", "韓國", "首爾", "韓", "韓"], "🇱🇻": ["Latvia", "Latvija", "拉脫維亞"], "🇲🇽️": ["MEX", "MX", "墨西哥"], "🇲🇾": ["MY", "Malaysia","MALAYSIA", "馬來西亞", "吉隆玻"], "🇳🇱": ["NL", "Netherlands", "荷蘭", "荷蘭", "尼德蘭", "阿姆斯特丹"], "🇵🇭": ["PH", "Philippines", "菲律賓"], "🇷🇴": ["RO", "羅馬尼亞"], "🇷🇺": ["RU", "Russia", "俄羅斯", "俄國", "俄羅斯", "伯力", "莫斯科", "聖彼德堡", "西伯利亞", "新西伯利亞", "京俄", "杭俄"], "🇸🇦": ["沙特", "迪拜"], "🇸🇪": ["SE", "Sweden"], "🇸🇬": ["SG", "Singapore","SINGAPORE", "新加坡", "獅城", "滬新", "京新", "泉新", "穗新", "深新", "杭新", "廣新"], "🇹🇭": ["TH", "Thailand", "泰國", "泰國", "曼谷"], "🇹🇷": ["TR", "Turkey", "土耳其", "伊斯坦布爾"], "🇹🇼": ["TW", "Taiwan","TAIWAN", "臺灣", "臺北", "台中", "新北", "彰化", "CHT", "台", "HINET"], "🇺🇸": ["US", "USA", "America", "United States", "美國", "美", "京美", "波特蘭", "達拉斯", "俄勒岡", "鳳凰城", "費利蒙", "矽谷", "矽穀", "拉斯維加斯", "洛杉磯", "聖約瑟", "聖克拉拉", "西雅圖", "芝加哥", "滬美", "哥倫布", "紐約"], "🇻🇳": ["VN", "越南", "胡志明市"], "🇮🇹": ["Italy", "IT", "Nachash", "義大利", "米蘭", "義大利"], "🇿🇦": ["South Africa", "南非"], "🇦🇪": ["United Arab Emirates", "阿聯酋"], "🇯🇵": ["JP", "Japan","JAPAN", "日", "日本", "東京", "大阪", "埼玉", "滬日", "穗日", "川日", "中日", "泉日", "杭日", "深日", "遼日", "廣日"], "🇦🇷": ["AR", "阿根廷"], "🇳🇴": ["Norway", "挪威", "NO"], "🇨🇳": ["CN", "China", "回國", "中國", "江蘇", "北京", "上海", "廣州", "深圳", "杭州", "徐州", "青島", "寧波", "鎮江", "back"] }
             if (Pemoji == 1) {
                 str1 = JSON.stringify(Lmoji)
                 aa = JSON.parse(str1)
