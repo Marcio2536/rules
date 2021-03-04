@@ -29,12 +29,12 @@ DOMAIN-SUFFIX,kfs.io,HongKong
 DOMAIN-SUFFIX,encoretvb.com,HongKong
 DOMAIN-SUFFIX,viu.tv,HongKong
 DOMAIN-SUFFIX,hmvod.com.hk,HongKong
-host-suffix, eum-appdynamics.com, HongKong
-host-suffix, eum-appdynamics.com, HongKong
-host-suffix, member-hsbc-group.com, HongKong
-host-suffix, tiqcdn.com, HongKong
-host-suffix, tiqcdn.com, HongKong
-host, hsbcbankhase.sc.omtrdc.net, HongKong
-host-suffix, hangseng.com, HongKong
-host-suffix, hangseng.com, HongKong
-host-suffix, hsbc.com.hk, HongKong
+DOMAIN-SUFFIX, eum-appdynamics.com, HongKong
+DOMAIN-SUFFIX, eum-appdynamics.com, HongKong
+DOMAIN-SUFFIX, member-hsbc-group.com, HongKong
+DOMAIN-SUFFIX, tiqcdn.com, HongKong
+DOMAIN-SUFFIX, tiqcdn.com, HongKong
+DOMAIN, hsbcbankhase.sc.omtrdc.net, HongKong
+DOMAIN-SUFFIX, hangseng.com, HongKong
+DOMAIN-SUFFIX, hangseng.com, HongKong
+DOMAIN-SUFFIX, hsbc.com.hk, HongKong
