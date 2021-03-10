@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-CN">
   <head>
     <title>BoxJs</title>
     <meta charset="utf-8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
-    <link rel="Bookmark" href="https://raw.githubusercontent.com/Marcio2536/photo/master/BOXJS.png" />
-    <link rel="shortcut icon" href="https://raw.githubusercontent.com/Marcio2536/photo/master/BOXJS.png" />
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/Marcio2536/photo/master/BOXJS.png" />
+    <link rel="Bookmark" href="https://raw.githubusercontent.com/chavyleung/scripts/master/BOXJS.png" />
+    <link rel="shortcut icon" href="https://raw.githubusercontent.com/chavyleung/scripts/master/BOXJS.png" />
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/chavyleung/scripts/master/BOXJS.png" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.4.x/dist/vuetify.min.css" rel="stylesheet" />
     <style>
       #BG {
         position: fixed;
@@ -37,9 +37,6 @@
       }
       [v-cloak] {
         display: none;
-      }
-      .text-pre-wrap {
-        white-space: pre-wrap !important;
       }
       .v-navigation-drawer {
         padding-top: constant(safe-area-inset-top) !important;
@@ -82,6 +79,9 @@
       }
       .v-bottom-navigation button {
         box-sizing: border-box;
+      }
+      .v-bottom-navigation button.v-btn:before {
+        background-color: transparent;
       }
       .v-speed-dial {
         margin-bottom: calc(48px + constant(safe-area-inset-bottom));
@@ -517,12 +517,12 @@
             <v-row no-gutters v-show="!isHidedAppIcons" class="align-self-start">
               <v-col cols="3" md="2" v-for="(app, appIdx) in favApps" :key="app.id" class="d-flex justify-space-around">
                 <div class="ma-2" @click="switchAppView(app.id)">
-                  <v-card v-if="isDarkMode" style="border-radius: 12px;">
-                    <v-img style="border-radius: 12px;" :aspect-ratio="1" width="54" height="54" contain v-ripple :src="app.icon"></v-img>
+                  <v-card v-if="isDarkMode" style="border-radius: 12px">
+                    <v-img style="border-radius: 12px" :aspect-ratio="1" width="54" height="54" contain v-ripple :src="app.icon"></v-img>
                   </v-card>
                   <v-img
                     v-else
-                    style="border-radius: 12px;"
+                    style="border-radius: 12px"
                     :aspect-ratio="1"
                     width="54"
                     height="54"
@@ -532,9 +532,7 @@
                     :src="app.icon"
                   ></v-img>
                   <p class="text-center ma-0">
-                    <span class="d-inline-block text-truncate font-weight-bold" :style="appIconFontStyle">
-                      {{app.name}}
-                    </span>
+                    <span class="d-inline-block text-truncate font-weight-bold" :style="appIconFontStyle"> {{app.name}} </span>
                   </p>
                 </div>
               </v-col>
@@ -545,9 +543,7 @@
             <!-- 收藏應用 -->
             <v-expansion-panels multiple class="mb-4" v-if="favApps.length > 0" v-model="box.usercfgs.favapppanel">
               <v-expansion-panel>
-                <v-expansion-panel-header>
-                  收藏應用 ({{favApps.length}})
-                </v-expansion-panel-header>
+                <v-expansion-panel-header> 收藏應用 ({{favApps.length}}) </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-list dense nav class="ma-n4">
                     <template v-for="(app, appIdx) in favApps">
@@ -587,9 +583,7 @@
             <!-- 訂閱應用 -->
             <v-expansion-panels multiple class="mb-4" v-if="appSubs.length > 0" v-model="box.usercfgs.subapppanel">
               <v-expansion-panel v-for="(sub, subIdx) in appSubs" :key="sub.id" v-if="!sub.isErr">
-                <v-expansion-panel-header>
-                  {{sub.name}} ({{sub.apps.length}})
-                </v-expansion-panel-header>
+                <v-expansion-panel-header> {{sub.name}} ({{sub.apps.length}}) </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-list dense nav class="ma-n4">
                     <template v-for="(app, appIdx) in sub.apps">
@@ -615,9 +609,7 @@
             <!-- 內置應用 -->
             <v-expansion-panels multiplev-if="sysApps.length > 0" v-model="box.usercfgs.sysapppanel">
               <v-expansion-panel>
-                <v-expansion-panel-header>
-                  內置應用 ({{sysApps.length}})
-                </v-expansion-panel-header>
+                <v-expansion-panel-header> 內置應用 ({{sysApps.length}}) </v-expansion-panel-header>
                 <v-expansion-panel-content>
                   <v-list dense nav class="ma-n4">
                     <template v-for="(app, appIdx) in sysApps">
@@ -675,9 +667,7 @@
                       </v-list-item-title>
                       <v-list-item-subtitle>{{sub.repo ? sub.repo : sub.url}}</v-list-item-subtitle>
                       <v-list-item-subtitle>{{sub.author ? sub.author : '@anonymous'}}</v-list-item-subtitle>
-                      <v-list-item-subtitle>
-                        更新於: {{timeago.format(sub.updateTime, 'zh_CN')}}
-                      </v-list-item-subtitle>
+                      <v-list-item-subtitle> 更新於: {{timeago.format(sub.updateTime, 'zh_CN')}} </v-list-item-subtitle>
                     </v-list-item-content>
                     <v-list-item-action>
                       <v-menu bottom left>
@@ -777,9 +767,7 @@
                     <v-btn small v-on="on">導入</v-btn>
                   </template>
                   <v-card>
-                    <v-card-title>
-                      導入備份
-                    </v-card-title>
+                    <v-card-title> 導入備份 </v-card-title>
                     <v-divider></v-divider>
                     <v-card-text>
                       <v-textarea
@@ -822,7 +810,7 @@
           </v-container>
           <!-- 代碼編輯 -->
           <v-container fluid v-show="view === 'coding'">
-            <v-card rounded="0" flat style="width: inherit;">
+            <v-card rounded="0" flat style="width: inherit">
               <v-subheader>
                 <h2>腳本編輯器</h2>
                 <v-spacer></v-spacer>
@@ -831,7 +819,7 @@
                 </v-btn>
               </v-subheader>
             </v-card>
-            <div class="pa-0" id="container" style="width: inherit; height: inherit;"></div>
+            <div class="pa-0" id="container" style="width: inherit; height: inherit"></div>
           </v-container>
           <!-- 應用詳情 -->
           <v-container fluid v-if="view === 'app' && !!curapp">
@@ -848,7 +836,7 @@
                 <p
                   v-for="(desc, descIdx) in curapp.descs"
                   v-text="desc"
-                  :class="curapp.descs.length === descIdx + 1 ? 'curapptext-pre-wrap' : 'mb-0 text-pre-wrap'"
+                  :class="curapp.descs.length === descIdx + 1 ? 'text-pre-wrap' : 'mb-0 text-pre-wrap'"
                 ></p>
                 <p v-if="curapp.desc_html" v-html="curapp.desc_html"></p>
                 <div v-for="(desc_html, desc_htmlIdx) in curapp.descs_html" v-html="desc_html"></div>
@@ -856,14 +844,10 @@
             </v-card>
             <v-card class="mb-4">
               <template v-if="curapp.scripts">
-                <v-subheader>
-                  應用腳本 ({{curapp.scripts.length}})
-                </v-subheader>
+                <v-subheader> 應用腳本 ({{curapp.scripts.length}}) </v-subheader>
                 <v-list dense>
                   <v-list-item v-for="(script, scriptIdx) in curapp.scripts" :key="scriptIdx">
-                    <v-list-item-title>
-                      {{scriptIdx + 1}}. {{script.name}}
-                    </v-list-item-title>
+                    <v-list-item-title> {{scriptIdx + 1}}. {{script.name}} </v-list-item-title>
                     <v-btn icon :loading="isLoading" @click.stop="runRemoteScript(script.script, script.script_timeout)">
                       <v-icon>mdi-play-circle</v-icon>
                     </v-btn>
@@ -873,9 +857,7 @@
             </v-card>
             <v-card class="mb-4">
               <template v-if="curapp.settings">
-                <v-subheader>
-                  應用設置 ({{curapp.settings.length}})
-                </v-subheader>
+                <v-subheader> 應用設置 ({{curapp.settings.length}}) </v-subheader>
                 <v-form class="pl-4 pr-4 pb-4">
                   <template v-for="(setting, settingIdx) in curapp.settings">
                     <v-slider
@@ -996,9 +978,7 @@
                         </v-list-item>
                       </template>
                       <v-card>
-                        <v-card-title>
-                          導入會話
-                        </v-card-title>
+                        <v-card-title> 導入會話 </v-card-title>
                         <v-divider></v-divider>
                         <v-card-text>
                           <v-textarea
@@ -1018,6 +998,9 @@
                         </v-card-actions>
                       </v-card>
                     </v-dialog>
+                    <v-list-item @click="copyData(curapp)">
+                      <v-list-item-title>複製資料</v-list-item-title>
+                    </v-list-item>
                     <v-divider></v-divider>
                     <v-list-item @click="clearAppDatas()">
                       <v-list-item-title>清空數據</v-list-item-title>
@@ -1187,9 +1170,7 @@
               <v-icon>mdi-new-box</v-icon>
             </v-btn>
             <v-btn dark fab small color="pink" @click="box.usercfgs.isLeftBoxIcon = !box.usercfgs.isLeftBoxIcon">
-              <v-icon>
-                {{box.usercfgs.isLeftBoxIcon ? 'mdi-format-horizontal-align-right' : 'mdi-format-horizontal-align-left'}}
-              </v-icon>
+              <v-icon> {{box.usercfgs.isLeftBoxIcon ? 'mdi-format-horizontal-align-right' : 'mdi-format-horizontal-align-left'}} </v-icon>
             </v-btn>
             <v-btn dark v-if="!box.usercfgs.isHideRefresh" fab small color="orange" @click="reload()">
               <v-icon>mdi-refresh</v-icon>
@@ -1216,7 +1197,7 @@
               </v-btn>
             </v-subheader>
             <v-divider></v-divider>
-            <v-card-text style="height: 80%;">
+            <v-card-text style="height: 80%">
               <div class="mt-6" v-for="(ver, verIdx) in box.versions">
                 <h2 :class="version === ver.version ? 'primary--text' : undefined">v{{ver.version}}</h2>
                 <div class="pl-4 pt-2" v-for="(note, noteIdx) in ver.notes">
@@ -1239,7 +1220,7 @@
               </v-btn>
             </v-card-title>
             <v-divider></v-divider>
-            <v-card-text style="height: 80%;">
+            <v-card-text style="height: 80%">
               <div class="mt-4" v-if="ui.exeScriptSheet.resp">
                 <p class="text-pre-wrap" v-if="ui.exeScriptSheet.resp.exception" v-text="ui.exeScriptSheet.resp.exception"></p>
                 <p class="text-pre-wrap" v-else-if="ui.exeScriptSheet.resp.output" v-text="ui.exeScriptSheet.resp.output"></p>
@@ -1251,7 +1232,7 @@
       </v-app>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vuetify@2.4.x/dist/vuetify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.x/lodash.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios@0.x/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1.x/dist/dayjs.min.js"></script>
@@ -1626,7 +1607,7 @@
             const apps = []
             this.appSubs.forEach((appsub) => {
               const sub = this.appSubCaches[appsub.url]
-              if (sub && sub.apps && Array.isArray(sub.apps)) {
+              if (sub && sub.apps && Array.isArray(sub.apps) && !appsub.isErr) {
                 sub.apps.forEach((app) => {
                   this.loadAppBaseInfo(app)
                   apps.push(app)
@@ -1641,7 +1622,9 @@
             const subs = JSON.parse(JSON.stringify(this.box.usercfgs.appsubs))
             subs.forEach((sub) => {
               const cacheSub = this.appSubCaches[sub.url]
-              if (cacheSub) {
+              const isValidSub = cacheSub && Array.isArray(cacheSub.apps) && cacheSub.apps.length > 0
+              const isValidSubApps = isValidSub && !cacheSub.apps.find((app) => !app.id)
+              if (cacheSub && isValidSub && isValidSubApps) {
                 Object.assign(sub, cacheSub)
               } else {
                 sub.isErr = true
@@ -2017,8 +2000,14 @@
           // 載入應用資訊
           loadAppBaseInfo(app) {
             // 應用圖示
-            app.icons = app.icons ? app.icons : this.ui.defaultIcons
+            app.icons = Array.isArray(app.icons) ? app.icons : this.ui.defaultIcons
+            const isBrokenIcons = app.icons.find((i) => i.includes('/Orz-3/task/master/'))
+            if (isBrokenIcons) {
+              app.icons[0] = app.icons[0].replace('/Orz-3/mini/master/', '/Orz-3/mini/master/Alpha/')
+              app.icons[1] = app.icons[1].replace('/Orz-3/task/master/', '/Orz-3/mini/master/Color/')
+            }
             app.icon = app.icons[this.iconThemeIdx]
+
             // 是否收藏
             const isFav = this.box.usercfgs.favapps.includes(app.id)
             app.favIcon = isFav ? 'mdi-star' : 'mdi-star-outline'
@@ -2167,10 +2156,21 @@
             const val = JSON.stringify(this.box.curSessions)
             const curSessions = [{ key, val }]
             const datas = [...session.datas, ...curSessions]
+
+            this.clearAppDatas()
             axios.post('/api/save', datas).then((resp) => {
               delete resp.data.usercfgs
               Object.assign(this.box, resp.data)
             })
+          },
+          // 複製應用資料為物件資料
+          copyData(curdata) {
+            const datas = curdata.datas
+            let result = {}
+            datas.forEach(({ key, val }) => {
+              result[key] = val
+            })
+            this.copy(JSON.stringify(result))
           },
           // 保存應用資料
           clearAppDatas(key) {
