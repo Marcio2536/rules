@@ -3,7 +3,7 @@ const $ = new Env('BoxJs')
 // 為 eval 準備的上下文環境
 const $eval_env = {}
 
-$.version = '0.7.58'
+$.version = '0.7.71'
 $.versionType = 'beta'
 
 // 發出的請求需要需要 Surge、QuanX 的 rewrite
@@ -42,9 +42,10 @@ $.json = $.name // `介面`類請求的回應體
 $.html = $.name // `頁面`類請求的回應體
 
 // 頁面源碼位址
-$.web = `https://raw.githubusercontent.com/Marcio2536/rules/master/box.html`
+$.web = `https://raw.githubusercontent.com/Marcio2536/rules/master/box.html?_=${new Date().getTime()}`
 // 版本說明地址 (Release Note)
-$.ver = 'https://raw.githubusercontent.com/Marcio2536/rules/master/boxfile.json'
+https://raw.githubusercontent.com/Marcio2536/rules/master/box.html
+$.ver = `https://cdn.jsdelivr.net/gh/chavyleung/scripts@${$.version}/box/release/box.release.tf.json`
 
 !(async () => {
   // 勿擾模式
@@ -275,16 +276,16 @@ function getSystemCfgs() {
     version: $.version,
     versionType: $.versionType,
     envs: [
-      { id: 'Surge', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/surge.png', 'https://raw.githubusercontent.com/Orz-3/task/master/surge.png'] },
-      { id: 'QuanX', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/quanX.png', 'https://raw.githubusercontent.com/Orz-3/task/master/quantumultx.png'] },
-      { id: 'Loon', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/loon.png', 'https://raw.githubusercontent.com/Orz-3/task/master/loon.png'] }
+      { id: 'Surge', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/surge.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/surge.png'] },
+      { id: 'QuanX', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/quanX.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/quantumultx.png'] },
+      { id: 'Loon', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/loon.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/loon.png'] }
     ],
     chavy: { id: 'ChavyLeung', icon: 'https://avatars3.githubusercontent.com/u/29748519', repo: 'https://github.com/chavyleung/scripts' },
     senku: { id: 'GideonSenku', icon: 'https://avatars1.githubusercontent.com/u/39037656', repo: 'https://github.com/GideonSenku' },
     id77: { id: 'id77', icon: 'https://avatars0.githubusercontent.com/u/9592236', repo: 'https://github.com/id77' },
-    orz3: { id: 'Orz-3', icon: 'https://raw.githubusercontent.com/Orz-3/task/master/Orz-3.png', repo: 'https://github.com/Orz-3/' },
-    boxjs: { id: 'BoxJs', show: false, icon: 'https://raw.githubusercontent.com/Orz-3/task/master/box.png', icons: ['https://raw.githubusercontent.com/Orz-3/mini/master/box.png', 'https://raw.githubusercontent.com/Orz-3/task/master/box.png'], repo: 'https://github.com/chavyleung/scripts' },
-    defaultIcons: ['https://raw.githubusercontent.com/Orz-3/mini/master/appstore.png', 'https://raw.githubusercontent.com/Orz-3/task/master/appstore.png']
+    orz3: { id: 'Orz-3', icon: 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/Orz-3.png', repo: 'https://github.com/Orz-3/' },
+    boxjs: { id: 'BoxJs', show: false, icon: 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/box.png', icons: ['https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/box.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/box.png'], repo: 'https://github.com/chavyleung/scripts' },
+    defaultIcons: ['https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/appstore.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/appstore.png']
   }
 }
 
@@ -343,6 +344,13 @@ function getSystemApps() {
 function getUserCfgs() {
   const defcfgs = { favapps: [], appsubs: [], isPinedSearchBar: true, httpapi: 'examplekey@127.0.0.1:6166' }
   const usercfgs = Object.assign(defcfgs, $.getjson($.KEY_usercfgs, {}))
+
+  // 處理異常資料：刪除所有為 null 的訂閱
+  if (usercfgs.appsubs.includes(null)) {
+    usercfgs.appsubs = usercfgs.appsubs.filter((sub) => sub)
+    $.setjson(usercfgs, $.KEY_usercfgs)
+  }
+
   return usercfgs
 }
 
@@ -360,7 +368,14 @@ function getAppSubCaches() {
  * @param {boolean} isComplete 是否獲取完整的備份資料
  */
 function getGlobalBaks(isComplete = false) {
-  const globalbaks = $.getjson($.KEY_globalBaks, [])
+  let globalbaks = $.getjson($.KEY_globalBaks, [])
+
+  // 處理異常資料：刪除所有為 null 的備份
+  if (globalbaks.includes(null)) {
+    globalbaks = globalbaks.filter((bak) => bak)
+    $.setjson(globalbaks, $.KEY_globalBaks)
+  }
+
   if (isComplete) {
     return globalbaks
   } else {
