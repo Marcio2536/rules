@@ -9,7 +9,6 @@
 ^https?:\/\/.+\.googlevideo\.com\/ptracking - reject
 ^https?:\/\/.+\.googleapis\.com\/ads - reject
 ^https?:\/\/.+\.googleapis\.com\/youtubei\/v1\/guide - reject
-(?<=&mcc_mnc=)45403 31390 307
 ^https?:\/\/.+\.googleapis\.com\/youtubei\/v1\/issuetoken - reject
 ^(http|https):\/\/api\.abema\.io\/v\d\/ip\/check - reject
 ^https?:\/\/.+\.youtube\.com\/error_204 - reject
