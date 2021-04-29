@@ -3,7 +3,7 @@ const $ = new Env('BoxJs')
 // 為 eval 準備的上下文環境
 const $eval_env = {}
 
-$.version = '0.7.71'
+$.version = '0.7.90'
 $.versionType = 'beta'
 
 // 發出的請求需要需要 Surge、QuanX 的 rewrite
@@ -23,8 +23,10 @@ $.KEY_sessions = 'chavy_boxjs_sessions'
 $.KEY_web_cache = 'chavy_boxjs_web_cache'
 // 存儲`應用訂閱緩存`
 $.KEY_app_subCaches = 'chavy_boxjs_app_subCaches'
-// 存儲`全域備份`
+// 存儲`全域備份` (棄用, 改用 `chavy_boxjs_backups`)
 $.KEY_globalBaks = 'chavy_boxjs_globalBaks'
+// 存儲`備份索引`
+$.KEY_backups = 'chavy_boxjs_backups'
 // 存儲`當前會話` (配合切換會話, 記錄當前切換到哪個會話)
 $.KEY_cursessions = 'chavy_boxjs_cur_sessions'
 
@@ -44,8 +46,7 @@ $.html = $.name // `頁面`類請求的回應體
 // 頁面源碼位址
 $.web = `https://raw.githubusercontent.com/Marcio2536/rules/master/box.html?_=${new Date().getTime()}`
 // 版本說明地址 (Release Note)
-https://raw.githubusercontent.com/Marcio2536/rules/master/box.html
-$.ver = `https://cdn.jsdelivr.net/gh/chavyleung/scripts@${$.version}/box/release/box.release.tf.json`
+$.ver = `https://raw.githubusercontent.com/chavyleung/scripts/master/box/release/box.release.tf.json`
 
 !(async () => {
   // 勿擾模式
@@ -72,6 +73,8 @@ $.ver = `https://cdn.jsdelivr.net/gh/chavyleung/scripts@${$.version}/box/release
 
   // 升級使用者資料
   upgradeUserData()
+  // 升級備份資料
+  upgradeGlobalBaks()
 
   // 處理預檢請求
   if ($.isOptions) {
@@ -201,10 +204,17 @@ async function handleQuery() {
   if (/^\/boxdata/.test(query)) {
     $.json = getBoxData()
   } else if (/^\/baks/.test(query)) {
-    const globalbaks = getGlobalBaks(true)
-    $.json = { globalbaks }
+    const [, backupId] = query.split('/baks/')
+    $.json = $.getjson(backupId)
   } else if (/^\/versions$/.test(query)) {
     await getVersions(true)
+  } else if (/^\/data/.test(query)) {
+    // TODO 記錄每次查詢的 key 至 usercfgs.viewkeys
+    const [, dataKey] = query.split('/data/')
+    $.json = {
+      key: dataKey,
+      val: $.getdata(dataKey)
+    }
   }
 }
 
@@ -232,6 +242,8 @@ async function handleApi() {
     await apiRevertGlobalBak()
   } else if (api === '/runScript') {
     await apiRunScript()
+  } else if (api === '/saveData') {
+    await apiSaveData()
   }
 }
 
@@ -272,13 +284,14 @@ function getBoxData() {
 function getSystemCfgs() {
   // prettier-ignore
   return {
-    env: $.isLoon() ? 'Loon' : $.isQuanX() ? 'QuanX' : $.isSurge() ? 'Surge' : 'Node',
+    env: $.isShadowrocket() ? 'Shadowrocket' : $.isLoon() ? 'Loon' : $.isQuanX() ? 'QuanX' : $.isSurge() ? 'Surge' : 'Node',
     version: $.version,
     versionType: $.versionType,
     envs: [
       { id: 'Surge', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/surge.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/surge.png'] },
       { id: 'QuanX', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/quanX.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/quantumultx.png'] },
-      { id: 'Loon', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/loon.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/loon.png'] }
+      { id: 'Loon', icons: ['https://raw.githubusercontent.com/Orz-3/mini/none/loon.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/loon.png'] },
+      { id: 'Shadowrocket', icons: ['https://raw.githubusercontent.com/Orz-3/mini/master/Alpha/shadowrocket.png', 'https://raw.githubusercontent.com/Orz-3/mini/master/Color/shadowrocket.png'] }
     ],
     chavy: { id: 'ChavyLeung', icon: 'https://avatars3.githubusercontent.com/u/29748519', repo: 'https://github.com/chavyleung/scripts' },
     senku: { id: 'GideonSenku', icon: 'https://avatars1.githubusercontent.com/u/39037656', repo: 'https://github.com/GideonSenku' },
@@ -298,20 +311,50 @@ function getSystemApps() {
     {
       id: 'BoxSetting',
       name: '偏好設置',
-      descs: ['可設置 http-api 位址 & 超時時間 (Surge TF)', '可設置明暗兩種主題下的主色調'],
+      descs: ['可手動執行一些抹掉資料的腳本', '可設置明暗兩種主題下的主色調', '可設置壁紙清單'],
       keys: [
-        '@chavy_boxjs_userCfgs.httpapi', 
-        '@chavy_boxjs_userCfgs.bgimg', 
-        '@chavy_boxjs_userCfgs.color_dark_primary', 
+        '@chavy_boxjs_userCfgs.httpapi',
+        '@chavy_boxjs_userCfgs.bgimg',
+        '@chavy_boxjs_userCfgs.http_backend',
+        '@chavy_boxjs_userCfgs.color_dark_primary',
         '@chavy_boxjs_userCfgs.color_light_primary'
       ],
       settings: [
-        { id: '@chavy_boxjs_userCfgs.httpapis', name: 'HTTP-API (Surge TF)', val: '', type: 'textarea', placeholder: ',examplekey@127.0.0.1:6166', autoGrow: true, rows: 2, persistentHint:true, desc: '示例: ,examplekey@127.0.0.1:6166! 注意: 以逗號開頭, 逗號分隔多個位址, 可加回車' },
-        { id: '@chavy_boxjs_userCfgs.httpapi_timeout', name: 'HTTP-API Timeout (Surge TF)', val: 20, type: 'number', persistentHint:true, desc: '如果腳本作者指定了超時時間, 會優先使用腳本指定的超時時間.' },
+        { id: '@chavy_boxjs_userCfgs.httpapis', name: 'HTTP-API (Surge)', val: '', type: 'textarea', placeholder: ',examplekey@127.0.0.1:6166', autoGrow: true, rows: 2, persistentHint:true, desc: '示例: ,examplekey@127.0.0.1:6166! 注意: 以逗號開頭, 逗號分隔多個位址, 可加回車' },
+        { id: '@chavy_boxjs_userCfgs.httpapi_timeout', name: 'HTTP-API Timeout (Surge)', val: 20, type: 'number', persistentHint:true, desc: '如果腳本作者指定了超時時間, 會優先使用腳本指定的超時時間.' },
+        { id: '@chavy_boxjs_userCfgs.http_backend', name: 'HTTP Backend (Quantumult X)', val: '', type: 'text',placeholder: 'http://127.0.0.1:9999', persistentHint:true, desc: '示例: http://127.0.0.1:9999 ! 注意: 必須是以 http 開頭的完整路徑, 不能是 / 結尾' },
         { id: '@chavy_boxjs_userCfgs.bgimgs', name: '背景圖片清單', val: '無,\n跟隨系統,跟隨系統\nlight,http://api.btstu.cn/sjbz/zsy.php\ndark,https://uploadbeta.com/api/pictures/random\n妹子,http://api.btstu.cn/sjbz/zsy.php', type: 'textarea', placeholder: '無,{回車} 跟隨系統,跟隨系統{回車} light,圖片位址{回車} dark,圖片位址{回車} 妹子,圖片位址', persistentHint:true, autoGrow: true, rows: 2, desc: '逗號分隔名字和連結, 回車分隔多個位址' },
         { id: '@chavy_boxjs_userCfgs.bgimg', name: '背景圖片', val: '', type: 'text', placeholder: 'http://api.btstu.cn/sjbz/zsy.php', persistentHint:true, desc: '輸入背景圖示的線上連結' },
+        { id: '@chavy_boxjs_userCfgs.changeBgImgEnterDefault', name: '手勢進入壁紙模式預設背景圖片', val: '', type: 'text', placeholder: '填寫上面背景圖片清單的值', persistentHint:true, desc: '' },
+        { id: '@chavy_boxjs_userCfgs.changeBgImgOutDefault', name: '手勢退出壁紙模式預設背景圖片', val: '', type: 'text', placeholder: '填寫上面背景圖片清單的值', persistentHint:true, desc: '' },
         { id: '@chavy_boxjs_userCfgs.color_light_primary', name: '明亮色調', canvas: true, val: '#F7BB0E', type: 'colorpicker', desc: '' },
         { id: '@chavy_boxjs_userCfgs.color_dark_primary', name: '暗黑色調', canvas: true, val: '#2196F3', type: 'colorpicker', desc: '' }
+      ],
+      scripts: [
+        {
+          name: "抹掉：所有緩存",
+          script: "https://raw.githubusercontent.com/chavyleung/scripts/master/box/scripts/boxjs.revert.caches.js"
+        },
+        {
+          name: "抹掉：收藏應用",
+          script: "https://raw.githubusercontent.com/chavyleung/scripts/master/box/scripts/boxjs.revert.usercfgs.favapps.js"
+        },
+        {
+          name: "抹掉：用戶偏好",
+          script: "https://raw.githubusercontent.com/chavyleung/scripts/master/box/scripts/boxjs.revert.usercfgs.js"
+        },
+        {
+          name: "抹掉：所有會話",
+          script: "https://raw.githubusercontent.com/chavyleung/scripts/master/box/scripts/boxjs.revert.usercfgs.sessions.js"
+        },
+        {
+          name: "抹掉：所有備份",
+          script: "https://raw.githubusercontent.com/chavyleung/scripts/master/box/scripts/boxjs.revert.baks.js"
+        },
+        {
+          name: "抹掉：BoxJs (注意備份)",
+          script: "https://raw.githubusercontent.com/chavyleung/scripts/master/box/scripts/boxjs.revert.boxjs.js"
+        }
       ],
       author: '@chavyleung',
       repo: 'https://github.com/chavyleung/scripts/blob/master/box/switcher/box.switcher.js',
@@ -342,7 +385,14 @@ function getSystemApps() {
  * 獲取使用者配置
  */
 function getUserCfgs() {
-  const defcfgs = { favapps: [], appsubs: [], isPinedSearchBar: true, httpapi: 'examplekey@127.0.0.1:6166' }
+  const defcfgs = {
+    favapps: [],
+    appsubs: [],
+    viewkeys: [],
+    isPinedSearchBar: true,
+    httpapi: 'examplekey@127.0.0.1:6166',
+    http_backend: ''
+  }
   const usercfgs = Object.assign(defcfgs, $.getjson($.KEY_usercfgs, {}))
 
   // 處理異常資料：刪除所有為 null 的訂閱
@@ -362,28 +412,20 @@ function getAppSubCaches() {
 }
 
 /**
- * 獲取全域備份
- * 預設只獲取備份的基礎資訊, 如: id, name……
- *
- * @param {boolean} isComplete 是否獲取完整的備份資料
+ * 獲取全域備份列表
  */
-function getGlobalBaks(isComplete = false) {
-  let globalbaks = $.getjson($.KEY_globalBaks, [])
+function getGlobalBaks() {
+  let backups = $.getjson($.KEY_backups, [])
 
   // 處理異常資料：刪除所有為 null 的備份
-  if (globalbaks.includes(null)) {
-    globalbaks = globalbaks.filter((bak) => bak)
-    $.setjson(globalbaks, $.KEY_globalBaks)
+  if (backups.includes(null)) {
+    backups = backups.filter((bak) => bak)
+    $.setjson(backups, $.KEY_backups)
   }
 
-  if (isComplete) {
-    return globalbaks
-  } else {
-    // isComplete === false: 不返回備份體
-    globalbaks.forEach((bak) => delete bak.bak)
-    return globalbaks
-  }
+  return backups
 }
+
 /**
  * 獲取版本清單
  */
@@ -479,32 +521,32 @@ async function apiReloadAppSub() {
 }
 
 async function apiDelGlobalBak() {
-  const bak = $.toObj($request.body)
-  const globalbaks = $.getjson($.KEY_globalBaks, [])
-  const bakIdx = globalbaks.findIndex((b) => b.id === bak.id)
+  const backup = $.toObj($request.body)
+  const backups = $.getjson($.KEY_backups, [])
+  const bakIdx = backups.findIndex((b) => b.id === backup.id)
   if (bakIdx > -1) {
-    globalbaks.splice(bakIdx, 1)
-    $.setjson(globalbaks, $.KEY_globalBaks)
+    backups.splice(bakIdx, 1)
+    $.setdata('', backup.id)
+    $.setjson(backups, $.KEY_backups)
   }
   $.json = getBoxData()
 }
 
 async function apiUpdateGlobalBak() {
-  const { id: bakId, name: bakName } = $.toObj($request.body)
-  const globalbaks = $.getjson($.KEY_globalBaks, [])
-  const bak = globalbaks.find((b) => b.id === bakId)
-  if (bak) {
-    bak.name = bakName
-    $.setjson(globalbaks, $.KEY_globalBaks)
+  const { id: backupId, name: backupName } = $.toObj($request.body)
+  const backups = $.getjson($.KEY_backups, [])
+  const backup = backups.find((b) => b.id === backupId)
+  if (backup) {
+    backup.name = backupName
+    $.setjson(backups, $.KEY_backups)
   }
-  $.json = { globalbaks }
+  $.json = getBoxData()
 }
 
 async function apiRevertGlobalBak() {
-  const { id: bakId } = $.toObj($request.body)
-  const globalbaks = $.getjson($.KEY_globalBaks, [])
-  const bak = globalbaks.find((b) => b.id === bakId)
-  if (bak && bak.bak) {
+  const { id: bakcupId } = $.toObj($request.body)
+  const backup = $.getjson(bakcupId)
+  if (backup) {
     const {
       chavy_boxjs_sysCfgs,
       chavy_boxjs_sysApps,
@@ -513,7 +555,7 @@ async function apiRevertGlobalBak() {
       chavy_boxjs_cur_sessions,
       chavy_boxjs_app_subCaches,
       ...datas
-    } = bak.bak
+    } = backup
     $.setdata(JSON.stringify(chavy_boxjs_sessions), $.KEY_sessions)
     $.setdata(JSON.stringify(chavy_boxjs_userCfgs), $.KEY_usercfgs)
     $.setdata(JSON.stringify(chavy_boxjs_cur_sessions), $.KEY_cursessions)
@@ -522,34 +564,34 @@ async function apiRevertGlobalBak() {
     Object.keys(datas).forEach((datkey) => $.setdata(isNull(datas[datkey]) ? '' : `${datas[datkey]}`, datkey))
   }
   const boxdata = getBoxData()
-  boxdata.globalbaks = globalbaks
   $.json = boxdata
 }
 
 async function apiSaveGlobalBak() {
-  let globalbaks = $.getjson($.KEY_globalBaks, [])
-  const bak = $.toObj($request.body)
-  const box = getBoxData()
-  const bakdata = {}
-  bakdata['chavy_boxjs_userCfgs'] = box.usercfgs
-  bakdata['chavy_boxjs_sessions'] = box.sessions
-  bakdata['chavy_boxjs_cur_sessions'] = box.curSessions
-  bakdata['chavy_boxjs_app_subCaches'] = box.appSubCaches
-  Object.assign(bakdata, box.datas)
-  bak.bak = bakdata
-  globalbaks.push(bak)
-  if (!$.setjson(globalbaks, $.KEY_globalBaks)) {
-    globalbaks = $.getjson($.KEY_globalBaks, [])
-  }
-  $.json = { globalbaks }
+  const backups = $.getjson($.KEY_backups, [])
+  const boxdata = getBoxData()
+  const backup = $.toObj($request.body)
+  const backupData = {}
+  backupData['chavy_boxjs_userCfgs'] = boxdata.usercfgs
+  backupData['chavy_boxjs_sessions'] = boxdata.sessions
+  backupData['chavy_boxjs_cur_sessions'] = boxdata.curSessions
+  backupData['chavy_boxjs_app_subCaches'] = boxdata.appSubCaches
+  Object.assign(backupData, boxdata.datas)
+  backups.push(backup)
+  $.setjson(backups, $.KEY_backups)
+  $.setjson(backupData, backup.id)
+  $.json = getBoxData()
 }
 
 async function apiImpGlobalBak() {
-  let globalbaks = $.getjson($.KEY_globalBaks, [])
-  const bak = $.toObj($request.body)
-  globalbaks.push(bak)
-  $.setjson(globalbaks, $.KEY_globalBaks)
-  $.json = { globalbaks }
+  const backups = $.getjson($.KEY_backups, [])
+  const backup = $.toObj($request.body)
+  const backupData = backup.bak
+  delete backup.bak
+  backups.push(backup)
+  $.setjson(backups, $.KEY_backups)
+  $.setjson(backupData, backup.id)
+  $.json = getBoxData()
 }
 
 async function apiRunScript() {
@@ -564,7 +606,7 @@ async function apiRunScript() {
   } else {
     script_text = opts.script
   }
-  if ($.isSurge() && ishttpapi) {
+  if ($.isSurge() && !$.isLoon() && !$.isShadowrocket() && ishttpapi) {
     const runOpts = { timeout: opts.timeout }
     await $.runScript(script_text, runOpts).then((resp) => ($.json = JSON.parse(resp)))
   } else {
@@ -600,6 +642,15 @@ async function apiRunScript() {
       result: '',
       output: $.cached_logs.join('\n')
     }
+  }
+}
+
+async function apiSaveData() {
+  const { key: dataKey, val: dataVal } = $.toObj($request.body)
+  $.setdata(dataVal, dataKey)
+  $.json = {
+    key: dataKey,
+    val: $.getdata(dataKey)
   }
 }
 
@@ -659,6 +710,44 @@ function upgradeUserData() {
   if (isNeedUpgrade) {
     $.setjson(usercfgs, $.KEY_usercfgs)
   }
+}
+
+/**
+ * 升級備份資料
+ *
+ * 升級前: 把所有備份都存到一個持久化空間
+ * 升級後: 把每個備份都獨立存到一個空間, `$.KEY_backups` 僅記錄必要的資料索引
+ */
+function upgradeGlobalBaks() {
+  let oldbaks = $.getdata($.KEY_globalBaks)
+  let newbaks = $.getjson($.KEY_backups, [])
+  const isEmpty = (bak) => [undefined, null, ''].includes(bak)
+  const isExistsInNew = (backupId) => newbaks.find((bak) => bak.id === backupId)
+
+  // 存在舊備份資料時, 升級備份資料格式
+  if (!isEmpty(oldbaks)) {
+    oldbaks = JSON.parse(oldbaks)
+    oldbaks.forEach((bak) => {
+      if (isEmpty(bak)) return
+      if (isEmpty(bak.bak)) return
+      if (isExistsInNew(bak.id)) return
+
+      console.log(`正在遷移: ${bak.name}`)
+      const backupId = bak.id
+      const backupData = bak.bak
+
+      // 刪除舊的備份資料, 僅保留索引資訊
+      delete bak.bak
+      newbaks.push(bak)
+
+      // 提取舊備份資料, 存入獨立的持久化空間
+      $.setjson(backupData, backupId)
+    })
+    $.setjson(newbaks, $.KEY_backups)
+  }
+
+  // 清空所有舊備份的資料
+  $.setdata('', $.KEY_globalBaks)
 }
 
 /**
@@ -746,5 +835,7 @@ function GistBox(e){const t=function(e,t={}){const{isQX:s,isLoon:n,isSurge:o}=fu
  * EnvJs
  */
 // prettier-ignore
-function Env(t,e){class s{constructor(t){this.env=t}send(t,e="GET"){t="string"==typeof t?{url:t}:t;let s=this.get;return"POST"===e&&(s=this.post),new Promise((e,i)=>{s.call(this,t,(t,s,r)=>{t?i(t):e(s)})})}get(t){return this.send.call(this.env,t)}post(t){return this.send.call(this.env,t,"POST")}}return new class{constructor(t,e){this.name=t,this.http=new s(this),this.data=null,this.dataFile="box.dat",this.logs=[],this.isMute=!1,this.isNeedRewrite=!1,this.logSeparator="\n",this.startTime=(new Date).getTime(),Object.assign(this,e),this.log("",`\ud83d\udd14${this.name}, \u5f00\u59cb!`)}isNode(){return"undefined"!=typeof module&&!!module.exports}isQuanX(){return"undefined"!=typeof $task}isSurge(){return"undefined"!=typeof $httpClient&&"undefined"==typeof $loon}isLoon(){return"undefined"!=typeof $loon}toObj(t,e=null){try{return JSON.parse(t)}catch{return e}}toStr(t,e=null){try{return JSON.stringify(t)}catch{return e}}getjson(t,e){let s=e;const i=this.getdata(t);if(i)try{s=JSON.parse(this.getdata(t))}catch{}return s}setjson(t,e){try{return this.setdata(JSON.stringify(t),e)}catch{return!1}}getScript(t){return new Promise(e=>{this.get({url:t},(t,s,i)=>e(i))})}runScript(t,e){return new Promise(s=>{let i=this.getdata("@chavy_boxjs_userCfgs.httpapi");i=i?i.replace(/\n/g,"").trim():i;let r=this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");r=r?1*r:20,r=e&&e.timeout?e.timeout:r;const[o,h]=i.split("@"),a={url:`http://${h}/v1/scripting/evaluate`,body:{script_text:t,mock_type:"cron",timeout:r},headers:{"X-Key":o,Accept:"*/*"}};this.post(a,(t,e,i)=>s(i))}).catch(t=>this.logErr(t))}loaddata(){if(!this.isNode())return{};{this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e);if(!s&&!i)return{};{const i=s?t:e;try{return JSON.parse(this.fs.readFileSync(i))}catch(t){return{}}}}}writedata(){if(this.isNode()){this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e),r=JSON.stringify(this.data);s?this.fs.writeFileSync(t,r):i?this.fs.writeFileSync(e,r):this.fs.writeFileSync(t,r)}}lodash_get(t,e,s){const i=e.replace(/\[(\d+)\]/g,".$1").split(".");let r=t;for(const t of i)if(r=Object(r)[t],void 0===r)return s;return r}lodash_set(t,e,s){return Object(t)!==t?t:(Array.isArray(e)||(e=e.toString().match(/[^.[\]]+/g)||[]),e.slice(0,-1).reduce((t,s,i)=>Object(t[s])===t[s]?t[s]:t[s]=Math.abs(e[i+1])>>0==+e[i+1]?[]:{},t)[e[e.length-1]]=s,t)}getdata(t){let e=this.getval(t);if(/^@/.test(t)){const[,s,i]=/^@(.*?)\.(.*?)$/.exec(t),r=s?this.getval(s):"";if(r)try{const t=JSON.parse(r);e=t?this.lodash_get(t,i,""):e}catch(t){e=""}}return e}setdata(t,e){let s=!1;if(/^@/.test(e)){const[,i,r]=/^@(.*?)\.(.*?)$/.exec(e),o=this.getval(i),h=i?"null"===o?null:o||"{}":"{}";try{const e=JSON.parse(h);this.lodash_set(e,r,t),s=this.setval(JSON.stringify(e),i)}catch(e){const o={};this.lodash_set(o,r,t),s=this.setval(JSON.stringify(o),i)}}else s=this.setval(t,e);return s}getval(t){return this.isSurge()||this.isLoon()?$persistentStore.read(t):this.isQuanX()?$prefs.valueForKey(t):this.isNode()?(this.data=this.loaddata(),this.data[t]):this.data&&this.data[t]||null}setval(t,e){return this.isSurge()||this.isLoon()?$persistentStore.write(t,e):this.isQuanX()?$prefs.setValueForKey(t,e):this.isNode()?(this.data=this.loaddata(),this.data[e]=t,this.writedata(),!0):this.data&&this.data[e]||null}initGotEnv(t){this.got=this.got?this.got:require("got"),this.cktough=this.cktough?this.cktough:require("tough-cookie"),this.ckjar=this.ckjar?this.ckjar:new this.cktough.CookieJar,t&&(t.headers=t.headers?t.headers:{},void 0===t.headers.Cookie&&void 0===t.cookieJar&&(t.cookieJar=this.ckjar))}get(t,e=(()=>{})){t.headers&&(delete t.headers["Content-Type"],delete t.headers["Content-Length"]),this.isSurge()||this.isLoon()?(this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient.get(t,(t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status),e(t,s,i)})):this.isQuanX()?(this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t))):this.isNode()&&(this.initGotEnv(t),this.got(t).on("redirect",(t,e)=>{try{const s=t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();this.ckjar.setCookieSync(s,null),e.cookieJar=this.ckjar}catch(t){this.logErr(t)}}).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t)))}post(t,e=(()=>{})){if(t.body&&t.headers&&!t.headers["Content-Type"]&&(t.headers["Content-Type"]="application/x-www-form-urlencoded"),t.headers&&delete t.headers["Content-Length"],this.isSurge()||this.isLoon())this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient.post(t,(t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status),e(t,s,i)});else if(this.isQuanX())t.method="POST",this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t));else if(this.isNode()){this.initGotEnv(t);const{url:s,...i}=t;this.got.post(s,i).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t))}}time(t){let e={"M+":(new Date).getMonth()+1,"d+":(new Date).getDate(),"H+":(new Date).getHours(),"m+":(new Date).getMinutes(),"s+":(new Date).getSeconds(),"q+":Math.floor(((new Date).getMonth()+3)/3),S:(new Date).getMilliseconds()};/(y+)/.test(t)&&(t=t.replace(RegExp.$1,((new Date).getFullYear()+"").substr(4-RegExp.$1.length)));for(let s in e)new RegExp("("+s+")").test(t)&&(t=t.replace(RegExp.$1,1==RegExp.$1.length?e[s]:("00"+e[s]).substr((""+e[s]).length)));return t}msg(e=t,s="",i="",r){const o=t=>{if(!t||!this.isLoon()&&this.isSurge())return t;if("string"==typeof t)return this.isLoon()?t:this.isQuanX()?{"open-url":t}:void 0;if("object"==typeof t){if(this.isLoon()){let e=t.openUrl||t["open-url"],s=t.mediaUrl||t["media-url"];return{openUrl:e,mediaUrl:s}}if(this.isQuanX()){let e=t["open-url"]||t.openUrl,s=t["media-url"]||t.mediaUrl;return{"open-url":e,"media-url":s}}}};this.isMute||(this.isSurge()||this.isLoon()?$notification.post(e,s,i,o(r)):this.isQuanX()&&$notify(e,s,i,o(r)));let h=["","==============\ud83d\udce3\u7cfb\u7edf\u901a\u77e5\ud83d\udce3=============="];h.push(e),s&&h.push(s),i&&h.push(i),console.log(h.join("\n")),this.logs=this.logs.concat(h)}log(...t){t.length>0&&(this.logs=[...this.logs,...t]),console.log(t.join(this.logSeparator))}logErr(t,e){const s=!this.isSurge()&&!this.isQuanX()&&!this.isLoon();s?this.log("",`\u2757\ufe0f${this.name}, \u9519\u8bef!`,t.stack):this.log("",`\u2757\ufe0f${this.name}, \u9519\u8bef!`,t)}wait(t){return new Promise(e=>setTimeout(e,t))}done(t={}){const e=(new Date).getTime(),s=(e-this.startTime)/1e3;this.log("",`\ud83d\udd14${this.name}, \u7ed3\u675f! \ud83d\udd5b ${s} \u79d2`),this.log(),(this.isSurge()||this.isQuanX()||this.isLoon())&&$done(t)}}(t,e)}
+function Env(t,e){class s{constructor(t){this.env=t}send(t,e="GET"){t="string"==typeof t?{url:t}:t;let s=this.get;return"POST"===e&&(s=this.post),new Promise((e,i)=>{s.call(this,t,(t,s,r)=>{t?i(t):e(s)})})}get(t){return this.send.call(this.env,t)}post(t){return this.send.call(this.env,t,"POST")}}return new class{constructor(t,e){this.name=t,this.http=new s(this),this.data=null,this.dataFile="box.dat",this.logs=[],this.isMute=!1,this.isNeedRewrite=!1,this.logSeparator="\n",this.startTime=(new Date).getTime(),Object.assign(this,e),this.log("",`\ud83d\udd14${this.name}, \u5f00\u59cb!`)}isNode(){return"undefined"!=typeof module&&!!module.exports}isQuanX(){return"undefined"!=typeof $task}isSurge(){return"undefined"!=typeof $httpClient&&"undefined"==typeof $loon}isLoon(){return"undefined"!=typeof $loon}isShadowrocket(){return"undefined"!=typeof $rocket}toObj(t,e=null){try{return JSON.parse(t)}catch{return e}}toStr(t,e=null){try{return JSON.stringify(t)}catch{return e}}getjson(t,e){let s=e;const i=this.getdata(t);if(i)try{s=JSON.parse(this.getdata(t))}catch{}return s}setjson(t,e){try{return this.setdata(JSON.stringify(t),e)}catch{return!1}}getScript(t){return new Promise(e=>{this.get({url:t},(t,s,i)=>e(i))})}runScript(t,e){return new Promise(s=>{let i=this.getdata("@chavy_boxjs_userCfgs.httpapi");i=i?i.replace(/\n/g,"").trim():i;let r=this.getdata("@chavy_boxjs_userCfgs.httpapi_timeout");r=r?1*r:20,r=e&&e.timeout?e.timeout:r;const[o,h]=i.split("@"),a={url:`http://${h}/v1/scripting/evaluate`,body:{script_text:t,mock_type:"cron",timeout:r},headers:{"X-Key":o,Accept:"*/*"}};this.post(a,(t,e,i)=>s(i))}).catch(t=>this.logErr(t))}loaddata(){if(!this.isNode())return{};{this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e);if(!s&&!i)return{};{const i=s?t:e;try{return JSON.parse(this.fs.readFileSync(i))}catch(t){return{}}}}}writedata(){if(this.isNode()){this.fs=this.fs?this.fs:require("fs"),this.path=this.path?this.path:require("path");const t=this.path.resolve(this.dataFile),e=this.path.resolve(process.cwd(),this.dataFile),s=this.fs.existsSync(t),i=!s&&this.fs.existsSync(e),r=JSON.stringify(this.data);s?this.fs.writeFileSync(t,r):i?this.fs.writeFileSync(e,r):this.fs.writeFileSync(t,r)}}lodash_get(t,e,s){const i=e.replace(/\[(\d+)\]/g,".$1").split(".");let r=t;for(const t of i)if(r=Object(r)[t],void 0===r)return s;return r}lodash_set(t,e,s){return Object(t)!==t?t:(Array.isArray(e)||(e=e.toString().match(/[^.[\]]+/g)||[]),e.slice(0,-1).reduce((t,s,i)=>Object(t[s])===t[s]?t[s]:t[s]=Math.abs(e[i+1])>>0==+e[i+1]?[]:{},t)[e[e.length-1]]=s,t)}getdata(t){let e=this.getval(t);if(/^@/.test(t)){const[,s,i]=/^@(.*?)\.(.*?)$/.exec(t),r=s?this.getval(s):"";if(r)try{const t=JSON.parse(r);e=t?this.lodash_get(t,i,""):e}catch(t){e=""}}return e}setdata(t,e){let s=!1;if(/^@/.test(e)){const[,i,r]=/^@(.*?)\.(.*?)$/.exec(e),o=this.getval(i),h=i?"null"===o?null:o||"{}":"{}";try{const e=JSON.parse(h);this.lodash_set(e,r,t),s=this.setval(JSON.stringify(e),i)}catch(e){const o={};this.lodash_set(o,r,t),s=this.setval(JSON.stringify(o),i)}}else s=this.setval(t,e);return s}getval(t){return this.isSurge()||this.isLoon()?$persistentStore.read(t):this.isQuanX()?$prefs.valueForKey(t):this.isNode()?(this.data=this.loaddata(),this.data[t]):this.data&&this.data[t]||null}setval(t,e){return this.isSurge()||this.isLoon()?$persistentStore.write(t,e):this.isQuanX()?$prefs.setValueForKey(t,e):this.isNode()?(this.data=this.loaddata(),this.data[e]=t,this.writedata(),!0):this.data&&this.data[e]||null}initGotEnv(t){this.got=this.got?this.got:require("got"),this.cktough=this.cktough?this.cktough:require("tough-cookie"),this.ckjar=this.ckjar?this.ckjar:new this.cktough.CookieJar,t&&(t.headers=t.headers?t.headers:{},void 0===t.headers.Cookie&&void 0===t.cookieJar&&(t.cookieJar=this.ckjar))}get(t,e=(()=>{})){t.headers&&(delete t.headers["Content-Type"],delete t.headers["Content-Length"]),this.isSurge()||this.isLoon()?(this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient.get(t,(t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status),e(t,s,i)})):this.isQuanX()?(this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t))):this.isNode()&&(this.initGotEnv(t),this.got(t).on("redirect",(t,e)=>{try{if(t.headers["set-cookie"]){const s=t.headers["set-cookie"].map(this.cktough.Cookie.parse).toString();s&&this.ckjar.setCookieSync(s,null),e.cookieJar=this.ckjar}}catch(t){this.logErr(t)}}).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>{const{message:s,response:i}=t;e(s,i,i&&i.body)}))}post(t,e=(()=>{})){const s=t.method?t.method.toLocaleLowerCase():"post";if(t.body&&t.headers&&!t.headers["Content-Type"]&&(t.headers["Content-Type"]="application/x-www-form-urlencoded"),t.headers&&delete t.headers["Content-Length"],this.isSurge()||this.isLoon())this.isSurge()&&this.isNeedRewrite&&(t.headers=t.headers||{},Object.assign(t.headers,{"X-Surge-Skip-Scripting":!1})),$httpClient[s](t,(t,s,i)=>{!t&&s&&(s.body=i,s.statusCode=s.status),e(t,s,i)});else if(this.isQuanX())t.method=s,this.isNeedRewrite&&(t.opts=t.opts||{},Object.assign(t.opts,{hints:!1})),$task.fetch(t).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>e(t));else if(this.isNode()){this.initGotEnv(t);const{url:i,...r}=t;this.got[s](i,r).then(t=>{const{statusCode:s,statusCode:i,headers:r,body:o}=t;e(null,{status:s,statusCode:i,headers:r,body:o},o)},t=>{const{message:s,response:i}=t;e(s,i,i&&i.body)})}}time(t,e=null){const s=e?new Date(e):new Date;let i={"M+":s.getMonth()+1,"d+":s.getDate(),"H+":s.getHours(),"m+":s.getMinutes(),"s+":s.getSeconds(),"q+":Math.floor((s.getMonth()+3)/3),S:s.getMilliseconds()};/(y+)/.test(t)&&(t=t.replace(RegExp.$1,(s.getFullYear()+"").substr(4-RegExp.$1.length)));for(let e in i)new RegExp("("+e+")").test(t)&&(t=t.replace(RegExp.$1,1==RegExp.$1.length?i[e]:("00"+i[e]).substr((""+i[e]).length)));return t}msg(e=t,s="",i="",r){const o=t=>{if(!t)return t;if("string"==typeof t)return this.isLoon()?t:this.isQuanX()?{"open-url":t}:this.isSurge()?{url:t}:void 0;if("object"==typeof t){if(this.isLoon()){let e=t.openUrl||t.url||t["open-url"],s=t.mediaUrl||t["media-url"];return{openUrl:e,mediaUrl:s}}if(this.isQuanX()){let e=t["open-url"]||t.url||t.openUrl,s=t["media-url"]||t.mediaUrl;return{"open-url":e,"media-url":s}}if(this.isSurge()){let e=t.url||t.openUrl||t["open-url"];return{url:e}}}};if(this.isMute||(this.isSurge()||this.isLoon()?$notification.post(e,s,i,o(r)):this.isQuanX()&&$notify(e,s,i,o(r))),!this.isMuteLog){let t=["","==============\ud83d\udce3\u7cfb\u7edf\u901a\u77e5\ud83d\udce3=============="];t.push(e),s&&t.push(s),i&&t.push(i),console.log(t.join("\n")),this.logs=this.logs.concat(t)}}log(...t){t.length>0&&(this.logs=[...this.logs,...t]),console.log(t.join(this.logSeparator))}logErr(t,e){const s=!this.isSurge()&&!this.isQuanX()&&!this.isLoon();s?this.log("",`\u2757\ufe0f${this.name}, \u9519\u8bef!`,t.stack):this.log("",`\u2757\ufe0f${this.name}, \u9519\u8bef!`,t)}wait(t){return new Promise(e=>setTimeout(e,t))}done(t={}){const e=(new Date).getTime(),s=(e-this.startTime)/1e3;this.log("",`\ud83d\udd14${this.name}, \u7ed3\u675f! \ud83d\udd5b ${s} \u79d2`),this.log(),(this.isSurge()||this.isQuanX()||this.isLoon())&&$done(t)}}(t,e)}
+
+
 
