@@ -84,7 +84,7 @@ links();
 setTimeout (function() { links(); }, 2000);
 }(console)</script></body>`)
 
-  console.log('添加 tamperJS：Google_Direct_Links.user.js')
+  console.log('Add googleurl.js')
 }
 
 $done({ body })
