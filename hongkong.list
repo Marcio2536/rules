@@ -3,13 +3,11 @@ DOMAIN-SUFFIX,mytvsuper.com,HongKong
 DOMAIN-SUFFIX,psg.cdn.hgc.com.hk,HongKong
 DOMAIN-SUFFIX,dpm.demdex.net,HongKong
 DOMAIN-SUFFIX,sniper.redsoapp.com,HongKong
-DOMAIN-SUFFIX,tvbcomservicebus3.servicebus.windows.net,HongKong
+DOMAIN-SUFFIX,nowe.com,HongKong
+DOMAIN-SUFFIX,tvbcomservicebus3.servicebus.windows.net
 DOMAIN-SUFFIX,viu.com,HongKong
-DOMAIN-SUFFIX,cloudfront.net,HongKong
-DOMAIN-SUFFIX,sg1.wzrkt.com,HongKong
-DOMAIN-SUFFIX,hot-mob.com,HongKong
 DOMAIN-SUFFIX,now.com,HongKong
-DOMAIN-SUFFIX,gov.hk,HongKong 
+DOMAIN-SUFFIX,nowestatic.com,HongKong
 DOMAIN-SUFFIX,hbogoasia.com,HongKong
 DOMAIN-SUFFIX,hbogoasia.hk,HongKong
 DOMAIN,bcbolthboa-a.akamaihd.net,HongKong
@@ -38,3 +36,6 @@ DOMAIN, hsbcbankhase.sc.omtrdc.net, HongKong
 DOMAIN-SUFFIX, hangseng.com, HongKong
 DOMAIN-SUFFIX, hangseng.com, HongKong
 DOMAIN-SUFFIX, hsbc.com.hk, HongKong
+DOMAIN,d1k2us671qcoau.cloudfront.net, HongKong
+DOMAIN,d2anahhhmp1ffz.cloudfront.net, HongKong
+DOMAIN,dfp6rglgjqszk.cloudfront.net, HongKong
