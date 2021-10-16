@@ -129,7 +129,7 @@ $configuration.sendMessage(message).then(resolve => {
     if (resolve.ret) {
       let output=JSON.stringify(resolve.ret[message.content])? JSON.stringify(resolve.ret[message.content]).replace(/\"|\[|\]/g,"").replace(/\,/g," ➟ ") : $environment.params
       let content = "------------------------------"+"</br>"+([result["YouTube"],result["Netflix"],result["Disney"],result["Dazn"]]).join("</br></br>")
-      content = content + "</br>------------------------------</br>"+"<font color=#6959CD>"+"<b>节点</b> ➟ " + output+ "</font>"
+      content = content + "</br>------------------------------</br>"+"<font color=#6959CD>"+"<b>節點</b> ➟ " + output+ "</font>"
       content =`<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">` + content + `</p>`
       //$notify(typeof(output),output)
       console.log(output);
@@ -142,7 +142,7 @@ $configuration.sendMessage(message).then(resolve => {
     $done();
   }); 
   
-    $done({"title":result["title"],"htmlMessage":`<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">`+'----------------------</br></br>'+"🚥 检测异常"+'</br></br>----------------------</br>'+ output + `</p>`})
+    $done({"title":result["title"],"htmlMessage":`<p style="text-align: center; font-family: -apple-system; font-size: large; font-weight: thin">`+'----------------------</br></br>'+"🚥 檢測異常"+'</br></br>----------------------</br>'+ output + `</p>`})
 }
   );
 
@@ -151,7 +151,7 @@ async function testDisneyPlus() {
   try {
     let { region, cnbl } = await Promise.race([testHomePage(), timeout(7000)])
     console.log(`homepage: region=${region}, cnbl=${cnbl}`)
-    // 即将登陆
+    // 即將登陸
     if (cnbl == 2) {
       return { region, status: STATUS_COMING }
     }
@@ -160,24 +160,24 @@ async function testDisneyPlus() {
     
     region = countryCode ?? region
     console.log( "region:"+region)
-    // 即将登陆
+    // 即將登陸
     if (inSupportedLocation === false || inSupportedLocation === 'false') {
       return { region, status: STATUS_COMING }
     } else {
-      // 支持解锁
+      // 支持解鎖
       return { region, status: STATUS_AVAILABLE }
     }
     
   } catch (error) {
     console.log("error:"+error)
     
-    // 不支持解锁
+    // 不支持解鎖
     if (error === 'Not Available') {
       console.log("不支持")
       return { status: STATUS_NOT_AVAILABLE }
     }
     
-    // 检测超时
+    // 檢測超時
     if (error === 'Timeout') {
       return { status: STATUS_TIMEOUT }
     }
