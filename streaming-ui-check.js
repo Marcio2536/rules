@@ -430,7 +430,7 @@ function testParam() {
       result["Paramount"] = "<b>Paramountᐩ: </b>支持 🎉 "
     } else if (response.statusCode == 302) {
       //resolve('Not Available')
-      result["Paramount"] = "<b>Pramountᐩ: </b>未支持 🚫"
+      result["Paramount"] = "<b>Paramountᐩ: </b>未支持 🚫"
     } 
       console.log("Paramountᐩ:"+ result["Paramount"])
   }, reason => {
